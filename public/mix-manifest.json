@@ -1,0 +1,17 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/sb-admin.css": "/css/sb-admin.css",
+    "/js/bootstrap-tagsinput.js": "/js/bootstrap-tagsinput.js",
+    "/js/chart-area-demo.js": "/js/chart-area-demo.js",
+    "/js/chart-bar-demo.js": "/js/chart-bar-demo.js",
+    "/js/chart-pie-demo.js": "/js/chart-pie-demo.js",
+    "/js/datatables-demo.js": "/js/datatables-demo.js",
+    "/js/jspdf.debug.js": "/js/jspdf.debug.js",
+    "/js/paginator.js": "/js/paginator.js",
+    "/js/sb-admin.js": "/js/sb-admin.js",
+    "/js/sb-admin.min.js": "/js/sb-admin.min.js",
+    "/js/select2.js": "/js/select2.js",
+    "/js/select2.full.js": "/js/select2.full.js",
+    "/js/select2.full.min.js": "/js/select2.full.min.js",
+    "/js/select2.min.js": "/js/select2.min.js"
+}

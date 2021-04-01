@@ -23,5 +23,10 @@ class venta extends Model
 
         return $this->belongsTo('App\usuario','idUsuario','id');
     }
+
+    public function documento() //pasra asociar product con categoria
+    {
+        return $this->belongsTo('App\documento','idDocumento','id');
+    }
 }
    

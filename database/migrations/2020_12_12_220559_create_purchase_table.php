@@ -17,11 +17,19 @@ class CreatePurchaseTable extends Migration
             $table->bigIncrements('id');
             $table->integer('serieComprobante');
             $table->integer('numeroComprobante');
-            $table->date('fechaEmision');
-            $table->bigInteger('idProveedor');
             $table->bigInteger('idProducto');
             $table->integer('cantidad');
-            $table->string('factura');
+            $table->integer('subtotal');
+            $table->double('iva', 10, 2);
+            $table->double('ivaAcum', 10, 2);
+            $table->double('descuentoPorcentaje', 10, 2);
+            $table->double('impuesto', 10, 2);
+            $table->double('totalDescontado', 10, 2);
+            $table->double('total', 10, 2);
+            $table->date('fechaEmision');
+            $table->bigInteger('idProveedor');
+            
+            $table->string('factura', 150);
             $table->boolean('estado');
 
             $table->timestamps();

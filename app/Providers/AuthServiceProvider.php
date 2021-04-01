@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Middleware\RoleMiddleware;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+         'App\producto' => 'App\Policies\ProductPolicy',
+         'App\categoria' => 'App\Policies\CategoryPolicy',
     ];
 
     /**
@@ -24,7 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+ 
+        /*Gate::define('isAdmin', function ($user) {
+            return $user->roles->first()->slug =='administrador-main';        
+        });
+        Gate::define('isManager', function ($user) {
+            return $user->roles->first()->slug =='invitado4-op';        
+        });*/
     }
-}
+} 

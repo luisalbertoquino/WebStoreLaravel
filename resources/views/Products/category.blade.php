@@ -9,20 +9,22 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="/home">Home</a>
-          </li>
+          </li> 
           <li class="breadcrumb-item active">Categorias</li>
           <form method="get" action="/category/create" style="margin-left: auto;">
-          <button type="submit" class="btn btn-primary" >
-            {{ __('Nueva Categoria') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
-        </button>
+            @if(Auth::user()->permissions->contains('slug', 'createcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+              <button type="submit" class="btn btn-primary" >
+                  {{ __('Nueva Categoria') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+            @endif
           </form>
         </ol>
  
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            &nbsp&nbsp&nbsp&nbspRegistro de Categorias</div>
+          <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
+            <i class="fa fa-th-large" style="color: #0860b8  ;" aria-hidden="true"></i>&nbsp&nbsp
+            CATEGORIAS REGISTRADAS</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -31,27 +33,30 @@
                     <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Categoria</th>
                     <th style="text-align: center;">Descripcion</th>
+                    @if(Auth::user()->permissions->contains('slug', 'downcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Estado</th>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <th style="text-align: center;">Ver</th>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'updatecategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Edit</th>
+                    @endif
+                    @if(Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <th style="text-align: center;">Delete</th>
+                    @endif
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th style="text-align: center;">Id</th>
-                    <th style="text-align: center;">Categoria</th>
-                    <th style="text-align: center;">Descripcion</th>
-                    <th style="text-align: center;">Estado</th>
-                    <th style="text-align: center;">Edit</th>
-                  </tr>
-                </tfoot>
                 <tbody>
                   @foreach ($categorias as $categorias)
                   <tr> 
-                    <td style="text-align: center;">{{$categorias->id}}</td>
-                    <td><textarea  style="border:0px" readonly value="{{$categorias->categoria}}" disabled  cols="20" rows="4">"{{$categorias->categoria}}"</textarea></td>
-                    <td><textarea  style="border:0px" readonly value="{{$categorias->descripcion}}" disabled  cols="30" rows="4">"{{$categorias->descripcion}}"</textarea></td>
-                    <td  style="text-align: center;">
+                    <td style="width:30px; text-align:center">{{$categorias->id}}</td>
+                    <td style="width:80px;">{{$categorias->categoria}}</td>
+                    <td style="width:200px;">{{$categorias->descripcion}}</td>
+
                     <!--cambiar estado-->
+                    @if(Auth::user()->permissions->contains('slug', 'downcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td  style="width:70px; text-align:center">
                     <form action="/category/estado/{{$categorias->id}}" method="POST">
                       @method('PATCH')
                       {{csrf_field()}}
@@ -62,12 +67,29 @@
                       @endif
                     </form>
                     </td>
-                    <!--editar-->
-                    <td style="text-align: center;">
-                      <a class="btn btn-primary" href="/category/{{$categorias->id}}/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                      <a class="btn btn-danger" href="/" data-toggle="modal" data-target="#deleteModal" data-postid="{{$categorias->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                    </td>
+                    @endif
 
+                    <!--ver-->
+                    @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:70px; text-align:center">
+                      <a class="btn btn-warning" href="/category/{{$categorias->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                    @endif 
+
+
+                    <!--editar-->
+                    @if(Auth::user()->permissions->contains('slug', 'updatecategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:70px; text-align:center">
+                      <a class="btn btn-primary" href="/category/{{$categorias->id}}/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </td>
+                    @endif
+
+                    <!--eliminar-->
+                    @if(Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:70px; text-align:center">
+                      <a class="btn btn-danger" href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal" data-postid="{{$categorias->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </td>
+                    @endif
                   </tr>
                   @endforeach
                 
@@ -91,19 +113,19 @@
       <div class="modal-content">
           <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Are you shure you want to delete this?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close" href="javascript:void(0)">
               <span aria-hidden="true">×</span>
           </button>
           </div>
           <div class="modal-body">Select "delete" If you realy want to delete this category.</div>
           <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" href="javascript:void(0)">Cancel</button>
           @if ($categorias->id=!false)
           <form method="POST" action="/category/{{$categorias->id}}">
             @method('DELETE')
                 @csrf
                 <input type="hidden" id="post_id" name="post_id" value="">
-                <a class="btn btn-primary" onclick="$(this).closest('form').submit();">Delete</a>
+                <a class="btn btn-primary" onclick="$(this).closest('form').submit();" href="javascript:void(0)">Delete</a>
             </form>
           @endif
           
@@ -122,17 +144,14 @@
             modal.find('form').attr('action','/category/' + post_id);
         })
     </script>
-
+@endsection
 <script>
   $(document).ready(function() {
       $('.js-example-theme-single').select2({theme:"classic"});
       $('#dataTable').DataTable({
-          bLengthChange: false,
-      });
+          
+      }); 
 
   });
 </script>
-@endsection
-
-
 @endsection

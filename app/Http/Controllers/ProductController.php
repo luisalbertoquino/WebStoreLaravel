@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\producto;
+use App\producto; 
 use App\categoria;
 use Illuminate\Http\Request;
 use DB;
-
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 { 
@@ -81,10 +81,12 @@ class ProductController extends Controller
      * @param  \App\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function show(producto $producto)
+    public function show(producto $productos)
     {
+        $categorias = producto::get();
         //
-    }
+        return view('Products.showProduct', ['producto'=>$productos,'categorias'=>$categorias]);
+    } 
 
     /**
      * Show the form for editing the specified resource.
@@ -93,13 +95,13 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(producto $productos) 
-    {
+    {   
         $productos = producto::find($productos->id);
         $categorias = categoria::get(); 
         
         return view('/Products/editProduct', ['producto'=>$productos,'categorias'=>$categorias]);
     }
-
+ 
     /**
      * Update the specified resource in storage.
      *
@@ -108,7 +110,14 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, producto $producto)
-    {
+    {   
+        
+        
+        /*if (Gate::allows('isAdmin')) {
+            dd('el usauario es admin');
+        }else{
+            dd('el usuairo no es admin');
+        }*/
         $data = request()->validate([
             'nombreProducto'=>'required',
             'detalleProducto'=>'required',

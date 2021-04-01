@@ -13,7 +13,7 @@
           </li>
           <li class="breadcrumb-item active">Resultados Generales de ventas</li>
         </ol>
-
+        @csrf
         <!-- Icon Cards-->
         
       </div>

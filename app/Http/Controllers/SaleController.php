@@ -6,6 +6,8 @@ use App\venta;
 use App\User;
 use App\producto;
 use App\cliente;
+use App\documento;
+use App\negocio;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -17,7 +19,22 @@ class SaleController extends Controller
      */
     public function index()
     { 
-        $venta = venta::get();
+        if(\Auth::user()->hasRole('administrador-main') || \Auth::user()->hasPermission('adminsales')){
+            //$venta = venta::distinct()->get(['serialVenta']);;
+            /*$venta= venta::select('id','serialVenta', 'numeroVenta', 'idProducto', 'cantidadProducto', 'subtotal', 'iva', 'total', 'idCliente', 'fechaEmision', 'idUsuario', 'estadoBoolean')
+            ->groupBy('numeroVenta')
+            ->get();
+            */
+           // $venta= venta::select('id','serialVenta', 'numeroVenta', 'idProducto', 'cantidadProducto', 'subtotal', 'iva', 'total', 'idCliente', 'fechaEmision', 'idUsuario', 'estadoBoolean')->distinct()->get();
+           // $venta = venta::select('id','serialVenta', 'numeroVenta', 'idProducto', 'cantidadProducto', 'subtotal', 'iva', 'total', 'idCliente', 'fechaEmision', 'idUsuario', 'estadoBoolean')->distinct()->get();
+          $venta = venta::get();
+           // dd($venta);
+        }else{
+            
+            $venta = venta::where('idUsuario', \Auth::user()->id)->orderBy('id','desc')
+            ->get();
+        }
+        
         $producto = producto::get();
         $usuario = User::get();
         $cliente = cliente::get();
@@ -27,7 +44,7 @@ class SaleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -38,9 +55,10 @@ class SaleController extends Controller
     {
         $producto = producto::get();
         $cliente = cliente::get();
-        $venta = venta::get(); 
+        $venta = venta::get();
+        $config= negocio::find(1); 
         
-        return view('Sales.newSale',['producto'=>$producto,'cliente'=>$cliente,'venta'=>$venta]);
+        return view('Sales.newSale',['producto'=>$producto,'cliente'=>$cliente,'venta'=>$venta,'config'=>$config]);
     }
 
     /**
@@ -55,22 +73,24 @@ class SaleController extends Controller
         $data = request()->validate([
             'serialVenta'=>'required',
             'numeroVenta'=>'required',
-            //'idProducto'=>'required',
-            //'cantidadProducto'=>'required',
             'subtotal'=>'required',
-            //'iva'=>'required',
+            'ivaAcum'=>'required',
             'total'=>'required',
             'idCliente'=>'required',
             'fechaEmision'=>'required',
             'idUsuario'=>'required',
-            'estado'=>'required'
+            'estado'=>'required',
+            'impuesto'=>'required',
+            'totalDescontado'=>'required',
         ]);
         $cadena= request('idProducto');
         $cadena2= request('cantidadProducto');
-        $cadena3= request('ivam');
+        $cadena3= request('iva');
+        $cadena4= request('descuentoPorcentaje');
         $array = explode(",", $cadena);
         $array2 = explode(",", $cadena2);
         $array3 = explode(",", $cadena3);
+        $array4 =explode(",", $cadena4);
         $count = count($array);
 
         for($i = 0; $i < $count; $i++){
@@ -79,15 +99,19 @@ class SaleController extends Controller
         //para guardar el id del usuario actual como registro $user=auth()->user() y luego colocar $user->id despues de igual
         $sale->serialVenta = request('serialVenta');
         $sale->numeroVenta=request('numeroVenta');
-        $sale->idProducto=$array[$i];
-        $sale->cantidadProducto=$array2[$i]; //
+        $sale->idProducto=$array[$i]; //
+        $sale->cantidad=$array2[$i]; //
         $sale->subtotal=request('subtotal');
         $sale->iva=$array3[$i];
+        $sale->ivaAcum=request('ivaAcum');
+        $sale->descuentoPorcentaje=$array4[$i];
+        $sale->impuesto=request('impuesto');
+        $sale->totalDescontado=request('totalDescontado');
         $sale->total=request('total');
         $sale->idCliente=request('idCliente');
         $sale->fechaEmision=request('fechaEmision');
         $sale->idUsuario=request('idUsuario');
-        $sale->estadoBoolean=request('estado');
+        $sale->estado=request('estado');
         $sale->save();
         $producto = producto::findOrFail($array[$i]);
         $producto->stock=$producto->stock-$array2[$i];
@@ -105,7 +129,13 @@ class SaleController extends Controller
      */
     public function show(venta $venta)
     {
-        //
+        $ventaOp = venta::find($venta);
+        $usuario = User::get();
+        $cliente = cliente::get();
+        $ventaFull = venta::get();
+        $documento= documento::get();
+        $config= negocio::find(1); 
+        return view('Sales.showSale', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
     }
 
     /**

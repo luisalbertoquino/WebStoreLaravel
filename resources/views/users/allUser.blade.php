@@ -54,7 +54,9 @@
                 
                 <tbody>
                   @foreach ($user as $users)
-                  <tr>
+                  <!--Esconcer credenciales del administrador en la tabla de usuarios general-->
+                  @if (!\Auth::user()->hasRole('administrador-main') && $users->hasRole('administrador-main')) @continue; @endif
+                  <tr {{Auth::user()->id == $users->id  ? 'bgcolor=#ddd' : '' }}>
                     <td>{{$users->id}}</td>
                     <td>{{$users->nombre}} {{$users->apellido}}</td>
                     <td><textarea  style="border:0px" readonly value="{{$users->email}}" disabled  cols="15" rows="2">"{{$users->email}}"</textarea></td>
@@ -80,7 +82,7 @@
                     </td> 
 
                     <td style="text-align: center">
-                      <a class="btn btn-warning" href="/user/{{$users->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                      <a class="btn btn-info" href="/user/{{$users->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     </td>
                     <td  style="text-align: center;">
                       <!--cambiar estado-->

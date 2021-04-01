@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use App\Traits\HasRolesAndPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRolesAndPermissions;
   
     public $table = "users";
     protected $guard_name = 'web';
@@ -26,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nombre', 'email', 'password',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -34,7 +35,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [ 
+    protected $hidden = [
         'password', 'remember_token',
     ];
 

@@ -5,7 +5,6 @@ use App\Traits\HasRolesAndPermissions;
 use Illuminate\Foundation\Auth\usuario as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class usuario extends Model
 {   
@@ -37,7 +36,7 @@ class usuario extends Model
         'password', 'remember_token',
     ];
 
-    /** 
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array

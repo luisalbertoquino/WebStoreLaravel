@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\categoria;
+use App\producto;
 
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /** 
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,8 +19,11 @@ class CategoryController extends Controller
         $this->middleware('auth');
     }
     public function index()
-    {
+    {   
+
+
         $categorias = categoria::get();
+        
         return view('Products.category',['categorias'=>$categorias]);
     }
  
@@ -67,7 +71,8 @@ class CategoryController extends Controller
      */
     public function show(categoria $categoria)
     {
-        //
+        $productos = producto::get();
+        return view('Products.showCategory' , ['categoria'=>$categoria,'productos'=>$productos]);
     }
  
     /**
@@ -94,12 +99,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, categoria $categoria)
     {
+
+        $this->authorize('UpdateCategory',$categoria);
         $data = request()->validate([
             'categoria'=>'required|max:20',
             'descripcion'=>'required',
             'estado'=>'required'
         ]);
-        dd($categoria);
         $category = categoria::findOrFail($categoria->id);
         //para la imagen del formulario $filename
         //para guardar el id del usuario actual como registro $user=auth()->user() y luego colocar $user->id despues de igual

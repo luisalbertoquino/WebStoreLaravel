@@ -40,10 +40,10 @@
                 <tbody>
                     @foreach($rol as $roles)
                     <tr>
-                        <td>{{ $roles['id'] }}</td>
-                        <td>{{ $roles['nombre'] }}</td>
-                        <td>{{ $roles['slug'] }}</td>
-                        <td>
+                        <td style="width:50px;">{{ $roles['id'] }}</td>
+                        <td style="width:100px;">{{ $roles['nombre'] }}</td>
+                        <td style="width:100px;">{{ $roles['slug'] }}</td>
+                        <td style="width:450px;">
                             @if($roles->permissions != null)
                               @foreach($roles->permissions as $permission)
                                 <span class="badge badge-secondary">
@@ -74,7 +74,7 @@
     </div>
     <!-- /.content-wrapper -->
   
-    <!-- delete Modal-->
+    <!-- delete Modal--> 
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
       <div class="modal-content">

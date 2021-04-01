@@ -16,8 +16,12 @@
           <li class="breadcrumb-item active">Nueva Categoria</li>
         </ol>
         <div class="card card-login mx-auto mt-5" style="border:1px solid #666"> 
-        <div class="card-header" style="text-align: center">Nueva categoria de producto&nbsp&nbsp<i class="fa fa-book" aria-hidden="true"></i></div>
+        <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: italic;">NUEVA CATEGORIA DE PRODUCTO&nbsp&nbsp
+            <i class="fa fa-th-large" style="color: #0860b8  ;" aria-hidden="true"></i>
+        </div>
         <div class="card-body">
+            <br>
+
     <!--mensajes de error-->
     @if ($errors->any())
     <div class="alert alert-danger" role="alert">
@@ -41,7 +45,7 @@
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Descripcion Categoria') }}</label>
                     <div class="col-md-6">
-                        <input id="descripcion" type="descripcion" class="form-control" name="descripcion" value="{{ old('descripcion') }}" >
+                        <textarea  id="descripcion"  type="descripcion" class="form-control" name="descripcion" value="{{ old('descripcion') }}" cols="18" rows="3"></textarea>
                     </div>
                 </div>
     
@@ -52,22 +56,24 @@
                     <div class="col-md-6">
                 
                         <div class="form-group">
-                            <label>Seleccione estado</label>
-                            <select name="estado" id="estado" ">
+                            <select name="estado" id="estado" class="form-control">
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
                         </div>
                 </div>
-                <br>
                 
     
                 <div class="form-group row mb-0">
-                    <div class="col-md-12 offset-md-6">
+                    <br>
+                <br>
+                    <div class="col-md-12 offset-md-2">
+                        <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>&nbsp&nbsp&nbsp
                         <button type="submit" class="btn btn-primary">
-                            {{ __('Añadir nueva categoria') }}
+                            {{ __('Añadir nueva categoria') }}&nbsp&nbsp<i class="fa fa-plus-square-o" aria-hidden="true"></i>  
                         </button>
                     </div>
+                    
                 </div>
             </form>
         
@@ -77,11 +83,10 @@
 
             <script>
                 var estado=document.getElementById('estado');
-                console.log(estado);
                 if(estado=='1'){
-                    document.getElementById('estado')=1;
+                    document.getElementById('estado').options.item(0).selected = 'selected';
                 }else{
-                    document.getElementById('estado')=0
+                    document.getElementById('estado').options.item(1).selected = 'selected';
                 }
 
             </script>

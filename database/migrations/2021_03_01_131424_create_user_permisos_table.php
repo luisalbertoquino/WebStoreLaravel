@@ -14,13 +14,13 @@ class CreateUserPermisosTable extends Migration
     public function up()
     {
         Schema::create('user_permisos', function (Blueprint $table) {
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('permiso_id');
 
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('permiso_id')->references('id')->on('permisos')->onDelete('cascade');
 
-            $table->primary(['usuario_id','permiso_id']);
+            $table->primary(['user_id','permiso_id']);
         });
     }
 

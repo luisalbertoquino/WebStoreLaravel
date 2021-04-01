@@ -15,12 +15,12 @@ class CreateProductTable extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombreProducto');
-            $table->string('detalleProducto');
+            $table->string('nombreProducto', 150);
+            $table->string('detalleProducto', 150);
             $table->integer('stock');
-            $table->integer('costo');
-            $table->double('porcentajeGanancia');
-            $table->integer('valorVenta');
+            $table->double('costo', 10, 2);
+            $table->string('porcentajeGanancia',10);
+            $table->double('valorVenta', 10, 2);
             $table->bigInteger('idCategoria');
             $table->boolean('estado');
 

@@ -13,9 +13,11 @@
           <li class="breadcrumb-item active">Ajustes</li>
           <li class="breadcrumb-item active">Documentos Registrados</li>
           <form method="get" action="/document/create" style="margin-left: auto;">
+            @if(Auth::user()->permissions->contains('slug', 'createdocument')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
           <button type="submit" class="btn btn-primary" >
             {{ __('Registrar nuevo tipo de documento al Sistema') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
         </button>
+            @endif
           </form>
         </ol>
  
@@ -31,23 +33,22 @@
                   <tr>
                     <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Tipo Documento</th>
+                    @if(Auth::user()->permissions->contains('slug', 'downdocument')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Estado</th>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'updatedocument')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Editar</th>
+                    @endif
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th style="text-align: center;">Id</th>
-                    <th style="text-align: center;">Tipo Documento</th>
-                    <th style="text-align: center;">Estado</th>
-                    <th style="text-align: center;">Editar</th>
-                  </tr>
-                </tfoot>
+                
                 <tbody>
                   @foreach ($documento as $documento)
                   <tr>
                     <td style="text-align: center;">{{$documento->id}}</td>
                     <td style="text-align: center;">{{$documento->tipoDocumento}}</td>
+
+                    @if(Auth::user()->permissions->contains('slug', 'downdocument')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <td  style="text-align: center;">
                     <!--cambiar estado-->
                     <form action="/document/estado/{{$documento->id}}" method="POST">
@@ -60,12 +61,15 @@
                       @endif
                     </form>
                     </td>
+                    @endif
+
+                    @if(Auth::user()->permissions->contains('slug', 'updatedocument')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <!--editar-->
                     <td style="text-align: center;">
                       <a class="btn btn-primary" href="/document/{{$documento->id}}/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                       <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal" data-postid="{{$documento->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                     </td>
-
+                    @endif
                   </tr>
                   @endforeach
                 
@@ -117,8 +121,22 @@
             var modal = $(this)
             modal.find('.modal-footer #post_id').val(post_id);
             modal.find('form').attr('action','/document/' + post_id);
-        })
+        });
+
+        
+
     </script>
+
 @endsection
+
+<script>
+  $(document).ready(function() {
+      $('.js-example-theme-single').select2({theme:"classic"});
+      $('#dataTable').DataTable({
+         
+      });
+
+  });
+</script>
 
 @endsection

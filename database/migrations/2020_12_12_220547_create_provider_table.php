@@ -15,12 +15,12 @@ class CreateProviderTable extends Migration
     {
         Schema::create('provider', function (Blueprint $table) {
             $table->bigIncrements('id'); 
-            $table->string('razonSocial');
+            $table->string('razonSocial',150);
             $table->bigInteger('idDocumento');
-            $table->string('numeroDocumento');
-            $table->string('direccion');
-            $table->string('telefono');
-            $table->string('email');
+            $table->string('numeroDocumento',150);
+            $table->string('direccion',150);
+            $table->string('telefono',150);
+            $table->string('email',200);
             $table->boolean('estado');
             
 

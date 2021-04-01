@@ -7,14 +7,14 @@
         <div class="container-fluid">
 
             <!-- Hipervinculos-->
-            <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="/home">Home</a>
-          </li>
-          <li class="breadcrumb-item active">
-            <a href="/shopping">Compras</a>
-          </li>
-          <li class="breadcrumb-item active">Nueva Compra</li>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/home">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <a href="/shopping">Compras</a>
+            </li>
+            <li class="breadcrumb-item active">Nueva Compra</li>
         </ol>
             <!--Para la fecha-->
             <?php
@@ -33,12 +33,20 @@
             <!--Primer div para laseleccion de productos-->
             <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666">
                 <!--Cabecera de la card-->
-                <div class="card-header" style="text-align: center;font-size:20px">REGISTRAR NUEVA COMPRA&nbsp&nbsp<i class="fa fa-book"
-                        aria-hidden="true"></i>
-                    <span style="float:right">
-                        <!--Fecha-->
-                        <input id="fechaEmision" type="text" style="text-align: center;  border: 0;outline: none;width: 120px;" class="form-control" name="fechaEmision" value="{{ $fecha }}" readonly>
+                <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
+                    <span style="float: center">
+                        REGISTRAR NUEVA COMPRA&nbsp&nbsp
+                    <i class="fa fa-truck" aria-hidden="true" style="color: #34495E"></i>
                     </span>
+                    
+                    <!--Fecha-->
+                <span style="float: right">
+                    <input id="fechaEmision" type="text" style="text-align: center;  border: 0;outline: none;width: 120px;" class="form-control" name="fechaEmision" value="{{ $fecha }}" readonly>
+                </span>
+                <!--boton regresar-->
+                <span style="float: left">
+                    <a href="{{url()->previous()}}" class="btn btn-danger"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                </span>
                 </div>
                 <br>
                 <!--cuerpo de la card-->
@@ -88,198 +96,316 @@
                     <div class="col-md-4">
                         <input id="serieComprobante" type="text" class="form-control" style="text-align: center" name="serieComprobante" required>
                     </div>
-                    </div>
+                    </div> <br>
                     
                 
-                                    <!--mensajes de error de la comprobacion de datos en el controller-->
-                                @if ($errors->any())
-                                <div class="alert alert-danger" role="alert">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                        <!--mensajes de error de la comprobacion de datos en el controller-->
+                        @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <!--producto-->
                     <div class="card mb-3">
                         <label for="descripcion" class="col-md-2 col-form-label text-md-right"></label>
-                        <div class="card-body">
+                        <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
+                            <i class="fa fa-th-large" style="color: #0860b8  ;" aria-hidden="true"></i>&nbsp&nbsp
+                            TABLA DE PRODUCTOS:<br> Seleccione el producto, la cantidad a comprar y las operaciones correspondientes</div><br>
                             <div class="table-responsive">
-                                <caption><i class="fas fa-table"></i>&nbsp&nbspSeleccione el producto y la cantidad a vender</caption>
                                 <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Stock</th>
-                                            <th>Costo</th>
-                                            <th>Iva?</th>
-                                            <th>Category</th>
-                                            <th>#C/U</th>
-                                            <th>Add</th>
+                                            <th title="NOMBRE DE PRODUCTO">Product</th>
+                                            <th title="CANTIDAD DISPONIBLE">C/U</th>
+                                            <th title="VALOR VENTA">Precio</th>
+                                            <th title="AÑADIR IVA?">Iva?</th>
+                                            <th title="CATEGORIA DE PRODUCTO">Category</th>
+                                            <th title="CANTIDAD" style="text-align: center"><i class="fa fa-shopping-basket" aria-hidden="true"></i></th>
+                                            <th title="DESCUENTO" style="text-align: center"><i class="fa fa-tag" aria-hidden="true"></i><i class="fa fa-percent" aria-hidden="true"></i></th>
+                                            <th title="AÑADIR A LA LISTA" style="text-align: center"><i class="fa fa-plus" aria-hidden="true"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($producto as $producto)
-                                    <tr>
-                                        <td><textarea  id="producto{{ $producto->id }}" style="border:0px" readonly value="{{ $producto->nombreProducto }}" disabled  cols="10" rows="2">"{{ $producto->nombreProducto }}"</textarea></td>
-                                        @if ($producto->stock > 0)
-                                        <td>
-                                            <input for="" id="stock1{{ $producto->id }}" readonly  value="{{ $producto->stock }}" style="text-align: center;border:0;width:50px;outline: none;background-color: #dfe;">
-                                            <span style="float: right"><label for="">C/U</label></span>
-                                        </td>
-                                        @else
-                                        <td>      
-                                            <input  for="" id="stock1{{ $producto->id }}" readonly value="Agotado" class="alert alert-danger"  size="4">
-                                        </td>
-                                        @endif
-                                        <td><input for="" id="costa{{ $producto->id }}" name="costa{{ $producto->id }}" style="text-align: center;border:0;width:70px;outline: none;" readonly value="{{ ($producto->costo*0.19)+$producto->costo }}"></td>
-                                        <td><input type="checkbox"  id="ivan{{ $producto->id }}" name="ivan" checked="true" onchange="funcionIva({{ $producto['costo'] }},{{ $producto->id }})" style="width: 5">  </td>
-                                        <td >
-                                            @if ($producto->category['estado'] == 1)
-                                                {{ $producto->category['categoria'] }}
+                                        @foreach ($producto as $producto)
+                                        <tr>
+                                            <!--nombre producto-->
+                                            <td style="width:30px;" id="producto{{ $producto->id }}">{{ $producto->nombreProducto }}</td>
+                                            <!--stock-->
+                                            @if ($producto->stock > 0)
+                                            <td>
+                                                <input for="" id="stock1{{ $producto->id }}" readonly  value="{{ $producto->stock }}" style="text-align: center;border:0;width:50px;outline: none;background-color: #dfe;">
+                                            </td>
                                             @else
-                                                No hay categoria disponible
+                                            <td style="text-align: center"> 
+                                                <input for="" id="stock1{{ $producto->id }}" readonly  value="{{ $producto->stock }}" style="text-align: center;border:0;width:50px;outline: none;background-color: red;color:#ffff">     
+                                            </td>
                                             @endif
-                                        </td>
-                                        <td>
-                                                <input id="cantidad{{ $producto->id }}" value="1" type="number" class="form-control" name="cantidadProducto" required style="width: 70px" autofocus="true" min="1" max="{{ $producto->stock }}">
-                                        </td> 
-                                        <td>
-                                            <!--añadir-->
-                                            <?php
-                                            $iva = $producto->iva;
-                                            $stock = $producto->stock;
-                                            $precio = $producto->costo;
-                                            ?>
-                                                <a href="javascript:void(0)" id="plus{{ $producto->id }}" onclick="funcion('{{ $producto['nombreProducto'] }}',{{ $producto['costo'] }},{{ $producto['stock'] }},{{ $producto->id }})"
-                                                class="btn btn-primary"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
+                                            <!--costo-->
+                                            <td><input for="" id="costa{{ $producto->id }}" name="costa{{ $producto->id }}" style="text-align: center;border:0;width:70px;outline: none;" readonly value="{{ ($producto->valorVenta*0.19)+$producto->valorVenta }}"></td>
+                                            <!--iva-->
+                                            <td style="text-align: center"><input type="checkbox"  id="ivan{{ $producto->id }}" name="ivan" checked="true" onchange="funcionIva({{ $producto['valorVenta'] }},{{ $producto->id }})"  style=" box-shadow: none;"> </td>
+                                            <td style="width:30px;">
+                                                @if ($producto->category['estado'] == 1)
+                                                    {{ $producto->category['categoria'] }}
+                                                @else
+                                                    No Disponible
+                                                @endif
+                                            </td>
+                                            <td>
+                                                    <input id="cantidad{{ $producto->id }}" value="1" type="number" class="form-control" name="cantidadProducto" required style="width: 70px" autofocus="true" min="1" max="{{ $producto->stock }}">
+                                                   
+                                            </td>
+                                            
+                                            <!--descuento-->
+                                            <td>
+                                                <input type="number" id="descuento{{ $producto->id }}" min="0" max="100" maxlength="3" aria-valuemax="100" name="descuento{{ $producto->id }}"  maxlength="3" class="form-control" style="width: 70px" placeholder="0" value="0">
+                                            </td>
+
+                                            <td>
+                                                <!--añadir-->
+                                                <?php
+                                                $iva = $producto->iva;
+                                                $stock = $producto->stock;
+                                                $precio = $producto->valorVenta;
+                                                ?>
+                                                    <a href="javascript:void(0)" id="plus{{ $producto->id }}" onclick="funcion('{{ $producto['nombreProducto'] }}',{{ $producto['valorVenta'] }},{{ $producto['stock'] }},{{ $producto->id }},{{$config->ivaActual}},{{$config->impuestos}})"
+                                                    class="btn btn-primary"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        
                     </div>   
 
                        
                 </div>
 
 
-                <!--subtotal-->
-                <div class="form-group row">
-                    <label for="descripcion" class="col-md-2 col-form-label text-md-right">{{ __('Subtotal $') }}</label>
-                    <div class="col-md-3">
-                        <input id="subtotal" type="number" class="form-control" name="subtotal" autofocus="true" readonly>
-                    </div>
-                    <input type="text" class="col-md-1 form-control" id="ivam" name="ivam" hidden>
-                    <!--total-->
-                    <label for="descripcion" class="col-md-3 col-form-label text-md-right">{{ __('Total $$') }}</label>
-                    <div class="col-md-3">
-                        <input id="total" type="number" class="form-control" name="total" autofocus="true" readonly>
-                    </div>
+                <!--opcion Comprar-->
+                <div class="form-group row col-md-5">
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-success " >{{ __('Comprar') }}
+                        </button>&nbsp&nbsp
+                            <a class="btn btn-danger" href="javascript:void(0)" id="download"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                            <a href="javascript:void(0)" onclick="javascript:demoFromHTML()">PDF</a>
                 </div>
-
-
-
-                <!--cliente-->
-                <div class="form-group row">
-
-
-                </div>
-
                 <!--estado-->
                 <div class="form-group row">
                     <div class="col-md-6">
                         <div class="form-group" class="form-control">
                             <select name="estado" id="estado" hidden="true">
-                                <option value="1">Activo</option>
+                                <option value="1" selected>Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
                         </div>
                     </div>
-                    <input type="text" id="idProducto" name="idProducto" hidden >
+                </div>
+                    <input type="text" id="idProducto" name="idProducto" hidden  >
                     <input type="text" id="cantidadProducto" name="cantidadProducto" hidden>
+                    <input type="text" id="iva" name="iva" hidden>
+                    <input type="text" id="descuentoPorcentaje" name="descuentoPorcentaje" hidden>
+                    <input type="text" id="impuesto" name="impuesto" value="0" hidden >
  
-                    <div class="form-group row mb-0">
-                        <div class="col-md-12 offset-md-6">
-                            &nbsp&nbsp<button type="submit" class="btn btn-primary"
-                                style="align-content: center;">
-                                {{ __('Registrar') }}
-                            </button>&nbsp&nbsp
-                            <span style="float:right">
-                                <a class="btn btn-primary" href="javascript:void(0)" id="download"><i class="fa fa-file-pdf-o"
-                                        aria-hidden="true"></i></a></span>
+                   
+                    
+                
+            </div>
+
+
+              
+
+
+            <!--vista previa de factura************************************************************************-->
+            <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666;">
+                <input id="fechaEmision2" type="date" class="form-control" name="fechaEmision2" value="{{ $fecha }}" readonly>
+                <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">Lista de compras &nbsp&nbsp<i class="fa fa-list" aria-hidden="true"></i> </div>
+
+                <div class="card-body">
+
+                    <!--subtotal-->
+                <div class="form-group row">
+                    <label for="descripcion" class="col-md-5 col-form-label text-md-right">{{ __('Subtotal') }}</label>
+                    <div class="col-md-4">
+                        <input id="subtotal" type="number" class="form-control"  name="subtotal" autofocus="true" readonly>
+                    </div>
+                    <label  for="">.00 $$</label>
+                 
+                </div>
+                <!--iva-->
+                <div class="form-group row">    
+                    <label for="descripcion" class="col-md-5 col-form-label text-md-right">{{ __('Iva Total') }}</label>
+                    <div class="col-md-4">
+                        <input id="ivaAcum" type="number"  class="form-control" name="ivaAcum" autofocus="true" readonly>
+                    </div>
+                    <label for="">.00 $$</label>
+                </div>
+                <!--descuento-->
+                <div class="form-group row">    
+                    <label for="descripcion" class="col-md-5 col-form-label text-md-right">{{ __('Descuento Total') }}</label>
+                    <div class="col-md-4">
+                        <input id="totalDescontado" type="number"  class="form-control" name="totalDescontado" autofocus="true" readonly>
+                    </div>
+                    <label for="">.00 $$</label>
+                </div>
+                <!--total-->
+                <div class="form-group row">    
+                    <label for="descripcion" class="col-md-5 col-form-label text-md-right">{{ __('Total') }}</label>
+                    <div class="col-md-4">
+                        <input id="total" type="number"  class="form-control" name="total" autofocus="true" readonly>
+                    </div>
+                    <label for="">.00 $$</label>
+                </div><br>
+                <div class="table-responsive">
+                    <div class="form-group">
+                        <label title="nombre producto" for="" class="col-md-2 col-form-label text-md-right" style="font-weight: bold;">Producto</label>
+                        <label title="cantidad producto" for="" class="col-md-2 col-form-label text-md-right" style="font-weight: bold;">Cantidad</label>
+                        <label title="precio producto" for="" class="col-md-2 col-form-label text-md-right" style="font-weight: bold;">Precio c/u</label>
+                        <label title="descuento asignado" for="" class="col-md-2 col-form-label text-md-right" style="font-weight: bold;">Desc&nbsp<i class="fa fa-tag" aria-hidden="true"></i><i class="fa fa-percent" aria-hidden="true"></i></label>
+                        <label title="iva producto" for="" class="col-md-1 col-form-label text-md-right" style="font-weight: bold;">Iva</label>
+                        <label title="total producto" for="" class="col-md-2 col-form-label text-md-right" style="font-weight: bold;">Total</label>
+                        
+                    </div>
+
+                    <div class="form-group" id="factura2" style="align-content: center">
+                       
+                    </div>
+                </div>
+                
+                    <br>
+
+            </div>
+            </div>
+
+             <!--vista previa factura-->
+             <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666;" id="pdf" name="pdf">
+                <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">Factura Generada &nbsp&nbsp<i class="fa fa-list" aria-hidden="true"></i> </div>
+                <!--ACA VIENE EL COPY Y PASTE DE L ANUEVA FACTURA-->
+                <div class="card" >
+                    <div class="container">
+                        <div class="invoice-box">
+                            
+                            <div class="table-responsive">
+                            <table class="table" id="tablita" cellpadding="0" cellspacing="0" style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url({{ Storage::url($config->nombreLogo)}}); background-repeat: no-repeat;">
+                                
+                                <tr class="top">
+                                    <td colspan="2">
+                                        <table>
+                                            <tr>
+                                                <td class="title">
+                                                    <img  src="{{ Storage::url($config->logo)}}" style="width:100px; max-width:300px;">
+                                                </td>
+                                        
+                                                <td>
+                                                    Factura de venta#  : {{$acum }}<br>
+                                                    Fecha Atual: <?php echo date("Y-m-d");?><br>
+                                                    Fecha Venta: <?php echo date("Y-m-d");?> 
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="information">
+                                    <td colspan="2">
+                                        <table>
+                                            <tr>
+                                                <!---datos empresa general-->
+                                                <td>
+                                                    {{$config->nombreEmpresa}}<br>
+                                                    Nit. {{$config->nit}}<br>
+                                                    tel. {{$config->telefono}}
+                                                </td>
+                                                <!---datos contacto-->
+                                                <td>
+                                                    {{$config->razonSocial}}<br>
+                                                    Webside:{{$config->paginaWeb}}<br>
+                                                    {{$config->email}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="heading">
+                                    <td>
+                                        Datos Proveedor
+                                    </td>
+            
+                                    <td>
+                                        Rcibido por
+                                    </td>
+                                    
+                                    
+                                </tr>
+                                
+                                <tr class="details">
+                                    <td>
+                                        <label id="clienter" type="text"></label><br>
+            
+            
+                                        Tipo Documento:Cedula de ciudadania <br>
+            
+                                        # Documento:1075389698<br>
+                                    </td>
+                                    
+                                    <td>
+                                        {{ auth()->user()->nombre }} {{ auth()->user()->apellido }}
+            
+                                    </td> 
+                                </tr>
+            
+                                <tr class="heading">
+                                    <td>
+                                        Producto/Cantidad
+                                    </td>
+                                    <td>
+                                        Total $$
+                                    </td>
+                                </tr>
+                                
+                               
+                                <tr class="item">
+                                    <td>
+                                        Descontinuado
+                                    </td>
+                                        
+                                    <td>
+                                        20000.00 $$
+                                    </td>
+                                </tr>
+    
+                                
+                                
+                                <tr class="total">
+                                    <td></td>
+                                    
+                                    <td>
+                                        SubTotal:.00 $$<br>
+                                        Total Impuestos: <br>
+                                        Descuentos Adicionales:.00 $$ <br>
+                                       Total:.00 $$
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         
                     </div>
                     
                 </div>
-            </div>
-
-            <!--vista previa de factura************************************************************************-->
-            <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666" id="pdf">
-                <input id="fechaEmision2" type="date" class="form-control" name="fechaEmision2" value="{{ $fecha }}" readonly>
-                <div class="card-header" style="text-align: center">Factura S/N &nbsp&nbsp<i class="fa fa-book"
-                        aria-hidden="true"></i>&nbsp&nbsp{{ $tiempo = time() }}
-                    
+            
                 </div>
 
-                <div class="card-body">
-
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">{{ __('Registrador') }}</label>
-                        <div class="col-md-4">
-                            <input id="idUsuario2" type="text" class="form-control" name="idUsuario2" autofocus="true"
-                                disabled value="{{ auth()->user()->nombre }} {{ auth()->user()->apellido }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">{{ __('Proveedor') }}</label>
-                        <div class="col-md-4">
-                            <input id="clienter" type="text" class="form-control" name="clienter" autofocus="true" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="" class="col-md-2 col-form-label text-md-right">Producto</label>
-                        <label for="" class="col-md-2 col-form-label text-md-right">cantidad</label>
-                        <label for="" class="col-md-2 col-form-label text-md-right">Precio c/u</label>
-                        <label for="" class="col-md-2 col-form-label text-md-right">Valor Iva</label>
-                        <label for="" class="col-md-2 col-form-label text-md-right">Precio Final</label>
-                    </div>
-
-                    <div class="form-group" id="factura2" style="align-content: center">
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="descripcion"
-                            class="col-md-2 col-form-label text-md-right">{{ __('Subtotal $') }}</label>
-                        <div class="col-md-2">
-                            <input id="subtotal2" type="number" class="form-control" name="subtotal" autofocus="true"
-                                readonly>
-                        </div>
-                        <!--iva-->
-                        <label for="descripcion" class="col-md-2 col-form-label text-md-right">{{ __('Iva %') }}</label>
-                        <div class="col-md-2">
-                            <input id="iva2" type="number" class="form-control" name="iva" autofocus="true" readonly>
-                        </div>
-                        <!--total-->
-                        <label for="descripcion" class="col-md-2 col-form-label text-md-right">{{ __('Total $$') }}</label>
-                        <div class="col-md-2">
-                            <input id="total2" type="number" class="form-control" name="total" autofocus="true" readonly>
-                        </div>
-
-                    </div>
-
-
-                </div>
             </div>
         </form>
         </div>
+
+        
 
         <script>
             //variables de la primera vista
@@ -287,17 +413,26 @@
             var total = 0;
             var stock = 0;
             var cont = 0;
+            var descuento=0;
             var cantidad2 = 0;
+            var cantidad3 = 0;
+            var ivaAcum =0;
+            var ivaIndi =0;
+            var descuentoAcum=0;
             var iProduct =  new Array(); //idProducto
             var cProduct =  new Array(); //cantidadProducto
             var ivaProduct =  new Array(); //cantidadProducto
+            var disProduct =  new Array(); //descuento si hay de Producto
+            var disCant = new Array(); //cuanto desconto en dinero
             var ide= "";
             var iva;
-            function fock(event){
-                document.getElementById("clienter").setAttribute("value", this.options[this.selectedIndex].text);
-            }
 
-            ;
+
+            function fock(event){
+                $('#clienter').html(this.options[this.selectedIndex].text); 
+            };
+
+            
 
             $(function() { 
                 $('#download').click(function() {
@@ -320,63 +455,93 @@
                     document.getElementById("costa"+idef).setAttribute("value", compara);
                 }
 
-            }
+            };
 
-            function funcion(productos, costos, cantidades, idd) {
+            function funcionIva(costo, idef) {
+                ibas=document.getElementById("costa"+idef).value;
+                compara=(costo*0.19)+costo;
+                if(compara-ibas==0){
+                    document.getElementById("costa"+idef).setAttribute("value", costo);
+                }else{
+                    document.getElementById("costa"+idef).setAttribute("value", compara);
+                }
+
+            };
+
+            function funcion(productos, costos, cantidades, idd, impuestoIva,impuestoOtro) {
+                //cantidad de producto
                 cont = document.getElementById("cantidad" + idd).value;
-                cantidad2 = cantidades + cont;
+                //descuento si hay
+                descu = document.getElementById("descuento" + idd).value;
+                //nuevo valor para la tabla de cantidad
+                cantidad2 = cantidades - cont;
+                cantidad3 = cantidades + cont;
+                //identificacion del producto seleccionado
                 ide=document.getElementById("producto"+idd).value;
+                //convierto las variables a entero y verifico que hay en el inventario
                 var cuantoHay = parseInt(cantidades);
                 var cuantoVendo = parseInt(cont);
                
-                    //document.getElementById("cantidadProducto").setAttribute("s", cProduct);
-                    //producto=document.getElementById("producto").innerHTML;
-                    //costo=document.getElementById("costo").innerHTML;
+                    //multiplico por cantidad de producto
                     costosSumados=costos*cont;
+                    //subtotal acumulador normal de costos sin iva y descuento
                     subtotal = subtotal + costosSumados;
-                    var totalStock = cuantoHay + cuantoVendo;
+                    //aplico el descuento correspondiente
+                    descuentoAcum=descuentoAcum+(costosSumados*(descu/100));
                     //aca se valida que opcion se marco en el check si 1 o 0
-                   
                     ibas=document.getElementById("costa"+idd).value;
-                    comprobante=costos-ibas
-                    
+                    //aca  decido si sumo el iva o no
+                   
                     if(costos-ibas==0){
-                        iva=0;
-                        total=total+costosSumados;
+                        total=total+costosSumados-(costosSumados*(descu/100));
                         
                     }else{
-                        iva=0.19;
-                        var ivaA = (iva * costosSumados) + costosSumados;
+                        var ivaA = (((impuestoIva/100) * costosSumados) + costosSumados)-(costosSumados*(descu/100));
                         total = total + ivaA;
+                        ivaAcum=ivaAcum+((impuestoIva/100) * costosSumados);
+                        ivaIndi=(impuestoIva/100) * costosSumados;
                     }
                     
                     //*****************************
                     //Array para cantidad
-                    iProduct.push(idd);
-                    cProduct.push(cont);
-                    ivaProduct.push(iva);
+                    iProduct.push(idd); //id de producto adquirido
+                    cProduct.push(cont); //cantidad de producto
+                    ivaProduct.push(ivaIndi); //iva del producto individual
+                    disProduct.push(descu); //porcentaje de descuento
                   
-                    document.getElementById("ivan"+idd).disabled=true;
-                    document.getElementById("cantidadProducto").setAttribute("value", cProduct);
-                    document.getElementById("idProducto").setAttribute("value", iProduct);
-                    document.getElementById("ivam").setAttribute("value", ivaProduct);
                    
-                    //*****************************
-
-                    document.getElementById("subtotal").setAttribute("value", subtotal);
-                    document.getElementById("total").setAttribute("value", total);
-                    document.getElementById("stock1" + idd).setAttribute("value", totalStock);
-                    document.getElementById("iva2").setAttribute("value", iva);
-                    document.getElementById("total2").setAttribute("value", total);
-                    document.getElementById("subtotal2").setAttribute("value", subtotal);
-                   
-                    
+                    //para alterar cambios en la tabla
                     //deshabilito la fila debido a que ya exprese la cantidad de ese producto inicial
                     //si requiero cambiar la cantidad debo eliminarlo de la list
                     document.getElementById("cantidad"+idd).disabled=true;
                     document.getElementById("plus"+idd).setAttribute("hidden","true");
-                    //href="javascript:void(0)"
-                    //variables de la segunda vista
+                    document.getElementById("ivan"+idd).disabled=true;
+                    document.getElementById("descuento"+idd).disabled=true;
+                    document.getElementById("cantidadProducto").setAttribute("value", cProduct);
+                    document.getElementById("idProducto").setAttribute("value", iProduct);
+                    document.getElementById("stock1" + idd).setAttribute("value", cantidad2+(cont*2));
+                    
+                   
+                    //variables ocultas
+                    document.getElementById("iva").setAttribute("value", ivaProduct);
+                    document.getElementById("descuentoPorcentaje").setAttribute("value", disProduct);
+                    
+
+                    //resumen general de totales
+
+                    document.getElementById("subtotal").setAttribute("value", subtotal);
+                    document.getElementById("ivaAcum").setAttribute("value", ivaAcum);
+                    document.getElementById("totalDescontado").setAttribute("value", descuentoAcum);
+                    document.getElementById("total").setAttribute("value", total);
+                    
+
+                    //valores plasmados en la factura
+                    //document.getElementById("iva2").setAttribute("value", iva);
+                    //document.getElementById("total2").setAttribute("value", total);
+                    //document.getElementById("subtotal2").setAttribute("value", subtotal);
+                   
+                    
+                    //*********variables de la lista****************
 
                     //añadir salto de linea
                     var br = document.createElement("br");
@@ -384,38 +549,47 @@
                     img.className = "fa fa-times";
                     img.setAttribute('aria-hidden', 'true');
                     var capa = document.getElementById("factura2");
+                    
+
                     //primero creare el boton de eliminar
                     var boton = document.createElement("a");
-                    boton.className = "btn btn-danger ";
+                    boton.className = "btn btn-danger col-md-2 col-form-label text-md-right";
+                    boton.style='width:40px; ';
                     boton.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i>'
                     boton.setAttribute("href","javascript:void(0)");
                     boton.onclick = deleteElemento;
-
+                    
                     //creare el label de subtotal
                     var producto = document.createElement("label");
                     producto.setAttribute("id", "prod");
                     producto.className = "col-md-2 col-form-label text-md-right";
                     producto.innerHTML = productos;
+                    
 
                     //label para cantidad
                     var cantidad = document.createElement("label");
                     cantidad.className = "col-md-2 col-form-label text-md-right";
-                    cantidad.innerText = cont;
+                    cantidad.innerText = cont+' units';
 
                     //label para precio unitario
                     var precio = document.createElement("label");
                     precio.className = "col-md-2 col-form-label text-md-right";
-                    precio.innerText = costos;
+                    precio.innerText = costos+'.00$$';
+
+                    //label para descuento 
+                    var descue = document.createElement("label");
+                    descue.className = "col-md-2 col-form-label text-md-right";
+                    descue.innerText = descu+'%';
 
                     //label para iva
                     var ivancio = document.createElement("label");
-                    ivancio.className = "col-md-2 col-form-label text-md-right";
-                    ivancio.innerText = iva;
+                    ivancio.className = "col-md-1 col-form-label text-md-right";
+                    ivancio.innerText = "19%";
 
                     //label para precio total, todo un cache
                     var precionso = document.createElement("label");
                     precionso.className = "col-md-2 col-form-label text-md-right";
-                    precionso.innerText = ((costos*cont)*iva)+(costos*cont);
+                    precionso.innerText = total+'.00$';
 
                     //creo un espacio
                     var espacio = document.createElement("div");
@@ -428,64 +602,82 @@
                     espacio.appendChild(producto);
                     espacio.appendChild(cantidad);
                     espacio.appendChild(precio);
+                    espacio.appendChild(descue);
                     espacio.appendChild(ivancio);
                     espacio.appendChild(precionso);
                     espacio.appendChild(boton);
                     espacio.appendChild(ope);
-
-                    function deleteElemento() {
-                        var capa = document.getElementById("factura2");
-                        contar = document.getElementById("stock1" + idd).value;
-                        document.getElementById("ivan"+idd).disabled=false;
-                        cont = cantidades-contar;
-                        //prueba inversa
-                    ibas=document.getElementById("costa"+idd).value;
-                    comprobante=costos-ibas
-                    //volver a la situacion, y revertir el iva
-                    pos2 = iProduct.indexOf(idd)
-                    cantares=cProduct[pos2]
-    
-                    if(costos-ibas==0){
-                        iva=0;
-                        costosSumados=costos*cantares; //estes costos esta por defecto no esta tomando el iva
-                        subtotal = subtotal - costosSumados;
-                        ivaA = (iva* costosSumados) + costosSumados;
-                        total=total-ivaA;
-                        
-                        
-                    }else{
-                        iva=0.19;
-                        costosSumados=costos*cantares; //estes costos esta por defecto no esta tomando el iva
-                        subtotal = subtotal - costosSumados;
-                        ivaA = (iva* costosSumados) + costosSumados;
-                        total=total-ivaA;
-                    }
-                        //*******************
-                       
-                        pos2 = iProduct.indexOf(idd);
-                        cProduct.splice(pos2, 1);ClientRect
-                        iProduct.splice(pos2, 1);
-                        ivaProduct.splice(pos2, 1);
-                        document.getElementById("cantidadProducto").setAttribute("value", cProduct);
-                        document.getElementById("idProducto").setAttribute("value", iProduct);
-                        document.getElementById("ivam").setAttribute("value", ivaProduct);
-                        
-                        //asignacion inversa
-                    document.getElementById("subtotal").setAttribute("value", subtotal);
-                    document.getElementById("total").setAttribute("value", total);
-                    document.getElementById("stock1" + idd).setAttribute("value", cantidades);
-                    document.getElementById("iva2").setAttribute("value", iva);
-                    document.getElementById("total2").setAttribute("value", total);
-                    document.getElementById("subtotal2").setAttribute("value", subtotal);
                     
-                  
-                        //
-                        //var borrardiv = capa.lastChild;
-                        document.getElementById("plus"+idd).removeAttribute("hidden")
-                        document.getElementById("cantidad"+idd).disabled=false;
 
-                        capa.removeChild(espacio);
 
+                    //*******************eliminar elemento de la lista****************
+                    function deleteElemento() {
+                            //obtengo el valor del div donde trabajare la lista
+                            var capa = document.getElementById("factura2");
+                            //btengo la cantidad de producto original
+                            contar = document.getElementById("stock1" + idd).value;
+                            
+                            cont = cantidades-contar;
+                            
+                        ibas=document.getElementById("costa"+idd).value;
+                        //volver a la situacion, y revertir el iva
+                        pos2 = iProduct.indexOf(idd);
+                        cantares=cProduct[pos2]; //cantidad de producto
+                        cantares2=(disProduct[pos2])/100; //cuanto fue el descuento
+                        cantares3=ivaProduct[pos2]; //cuanto fue el iva
+        
+                        if(costos-ibas==0){
+                            costosSumados=costos*cantares; //estes costos esta por defecto no esta tomando el iva
+                            subtotal = subtotal - costosSumados;
+                            total=total-costosSumados+(costosSumados*cantares2);
+                            descuentoAcum=descuentoAcum-(costosSumados*cantares2);
+                            
+                        }else{
+                            iva=(impuestoIva/100);
+                            costosSumados=costos*cantares; //estes costos esta por defecto no esta tomando el iva
+                            subtotal = subtotal - costosSumados;
+                            ivaA = cantares3 + costosSumados;
+                            total=total-ivaA+(costosSumados*cantares2);
+                            ivaAcum=ivaAcum-cantares3;
+                            descuentoAcum=descuentoAcum-(costosSumados*cantares2);
+                        }
+                            //limpio las posiciones de los vectores
+                            
+                        
+                            pos2 = iProduct.indexOf(idd);
+                            cProduct.splice(pos2, 1);
+                            iProduct.splice(pos2, 1);
+                            ivaProduct.splice(pos2, 1);
+                            disProduct.splice(pos2, 1);
+                            
+
+                        //reasigno a la tabla
+                            document.getElementById("ivan"+idd).disabled=false;
+                            document.getElementById("descuento"+idd).disabled=false;
+                            document.getElementById("cantidadProducto").setAttribute("value", cProduct);
+                            document.getElementById("idProducto").setAttribute("value", iProduct);
+                            document.getElementById("stock1" + idd).setAttribute("value", cantidades);
+
+                        //variables ocultas
+                            document.getElementById("iva").setAttribute("value", ivaProduct);
+                            document.getElementById("descuentoPorcentaje").setAttribute("value", disProduct);
+                            
+                            //asignacion inversa a los totales
+                            document.getElementById("subtotal").setAttribute("value", subtotal);
+                            document.getElementById("ivaAcum").setAttribute("value", ivaAcum);
+                            document.getElementById("totalDescontado").setAttribute("value", descuentoAcum);
+                            document.getElementById("total").setAttribute("value", total);
+                            
+                            //document.getElementById("iva2").setAttribute("value", iva);
+                            //document.getElementById("total2").setAttribute("value", total);
+                            //document.getElementById("subtotal2").setAttribute("value", subtotal);
+                        
+                    
+                            //
+                            //var borrardiv = capa.lastChild;
+                            document.getElementById("plus"+idd).removeAttribute("hidden")
+                            document.getElementById("cantidad"+idd).disabled=false;
+                            capa.removeChild(espacio);
                     }
                 
             }
@@ -508,8 +700,7 @@
             $(document).ready(function() {
                 $('.js-example-theme-single').select2({theme:"classic"});
                 $('#dataTable').DataTable({
-                    bLengthChange: false,
-                    aaSorting: [],
+                   
                 });
 
             });

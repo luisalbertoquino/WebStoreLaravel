@@ -68,10 +68,63 @@
     <div class="form-group row">
       <div class="col-md-6">
         <select class="js-example-responsive" multiple data-live-search="true" id="role_permisions2" name="role_permisions2" style="width: 250px" onchange="fock.call(this, event)">
-          <option>Crear 1</option>
-          <option>Eliminar 2</option>
-          <option>Actualizar 3</option>
-          <option>Ver 4</option>
+          <option>administrador</option>
+          <!--Permisos para categoria-->
+          <option>ViewCategory</option>
+          <option>CreateCategory</option>
+          <option>DownCategory</option>
+          <option>UpdateCategory</option>
+          <!--Permisos para product-->
+          <option>ViewProduct</option>
+          <option>CreateProduct</option>
+          <option>DownProduct</option>
+          <option>UpdateProduct</option>
+          <!--Permisos para Venta-->
+          <option>ViewSale</option>
+          <option>CreateSale</option>
+          <option>DownSale</option>
+          <option>UpdateSale</option>
+          <!--Permisos para compra-->
+          <option>ViewPurchase</option>
+          <option>CreatePurchase</option>
+          <option>DownPurchase</option>
+          <option>UpdatePurchase</option>
+          <!--Permisos para cliente-->
+          <option>ViewCustomer</option>
+          <option>CreateCustomer</option>
+          <option>DownCustomer</option>
+          <option>UpdateCustomer</option>
+          <!--Permisos para proveedor-->
+          <option>ViewSupplier</option>
+          <option>CreateSupplier</option>
+          <option>DownSupplier</option>
+          <option>UpdateSupplier</option>
+          <!--Permisos para usuario-->
+          <option>ViewUser</option>
+          <option>CreateUser</option>
+          <option>DownUser</option>
+          <option>UpdateUser</option>
+          <!--Permisos para documento-->
+          <option>ViewDocument</option>
+          <option>CreateDocument</option>
+          <option>DownDocument</option>
+          <option>UpdateDocument</option>
+          <!--Reportes-->
+          <option>viewReports</option>
+          <option>CreateReports</option>
+          <option>DownReports</option>
+          <option>UpdateReports</option>
+          <option>optionsSystem</option>
+          <!--Roles-->
+          <option>viewRol</option>
+          <option>CreateRol</option>
+          <option>DownRol</option>
+          <option>UpdateRol</option>
+          <option>optionsSystem</option>
+          <!--Roles-->
+          <option>adminSales</option>
+          <option>adminPurchase</option>
+          <option>editAcount</option>
       </select>
       </div>
   </div>

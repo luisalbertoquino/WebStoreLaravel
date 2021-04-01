@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use App\compra;
 use App\proveedor;
 use App\producto;
+use App\negocio;
 use Illuminate\Http\Request;
 
 class ShoppingController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -32,8 +38,9 @@ class ShoppingController extends Controller
         $proveedor = proveedor::get();
         $producto = producto::get();
         $compra = compra::get();
+        $config= negocio::find(1); 
       
-        return view('Shopping.newShopping',['compra'=>$compra,'proveedor'=>$proveedor,'producto'=>$producto]);
+        return view('Shopping.newShopping',['compra'=>$compra,'proveedor'=>$proveedor,'producto'=>$producto,'config'=>$config]);
     }
 
     /**
@@ -47,35 +54,44 @@ class ShoppingController extends Controller
         $data = request()->validate([
             'serieComprobante'=>'required',
             'numeroComprobante'=>'required',
+            'subtotal'=>'required', //
+            'ivaAcum'=>'required', //
+            'total'=>'required', //
             'fechaEmision'=>'required',
             'idProveedor'=>'required',
-            //'idProducto'=>'required',
-            //'cantidad'=>'required',
             'factura'=>'required',
-            'estado'=>'required'
+            'estado'=>'required',
+            'impuesto'=>'required', //
+            'totalDescontado'=>'required', //
         ]);
 
         $cadena= request('idProducto');
         $cadena2= request('cantidadProducto');
+        $cadena3= request('iva');
+        $cadena4= request('descuentoPorcentaje');
         $array = explode(",", $cadena);
         $array2 = explode(",", $cadena2);
+        $array3 = explode(",", $cadena3);
+        $array4 =explode(",", $cadena4);
         $count = count($array);
 
         for($i = 0; $i < $count; $i++){
         $compra = new compra();
-        //para la imagen del formulario $filename
-        //para guardar el id del usuario actual como registro $user=auth()->user() y luego colocar $user->id despues de igual
+       
         $compra->serieComprobante = request('serieComprobante');
         $compra->numeroComprobante=request('numeroComprobante');
-        $compra->factura=request('factura');
-        $compra->idProducto=$array[$i];
+        $compra->idProducto=$array[$i]; //
         $compra->cantidad=$array2[$i]; //
-        //$compra->fechaEmision=request('subtotal');
-        //$compra->iva=request('iva'); 
-        //$compra->total=request('total');
+        $compra->factura=request('factura');
+        $compra->subtotal=request('subtotal');
+        $compra->iva=$array3[$i];
+        $compra->ivaAcum=request('ivaAcum');
+        $compra->descuentoPorcentaje=$array4[$i];
+        $compra->impuesto=request('impuesto');
+        $compra->totalDescontado=request('totalDescontado');
+        $compra->total=request('total');
         $compra->idProveedor=request('idProveedor');
         $compra->fechaEmision=request('fechaEmision');
-        //$compra->idUsuario=request('idUsuario');
         $compra->estado=request('estado');
         $compra->save();
         $producto = producto::findOrFail($array[$i]);
@@ -95,7 +111,14 @@ class ShoppingController extends Controller
      */
     public function show(compra $compra)
     {
-        //
+        $compraOp = venta::find($compra);
+        $usuario = User::get();
+        $proveedor = proveedor::get();
+        $producto = producto::get();
+        $compra = compra::get();
+        $config= negocio::find(1); 
+      
+        return view('Shopping.showShopping',['compra'=>$compra,'proveedor'=>$proveedor,'producto'=>$producto,'config'=>$config,'usuario'=>$usuario]);
     }
 
     /**

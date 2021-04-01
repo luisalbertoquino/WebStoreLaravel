@@ -101,20 +101,12 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="usuario" class="col-md-4 col-form-label text-md-right">{{ __('Usuario') }}</label>
-    
-                    <div class="col-md-8">
-                        <input id="usuario" type="text" class="form-control" name="usuario" required value="{{$user->usuario}}">
-                    </div>
-                </div>
-
 
                 <div class="form-group row">
                     <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
     
                     <div class="col-md-8">
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required value="{{$user->password}}">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
     
                         @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -154,7 +146,7 @@
                                     <label for="{{$permission->slug}}" class="custom-control-label" for="{{$permission->slug}}">{{$permission->nombre}}</label>
                                 </div>
                                 @endforeach
-                            </div>
+                            </div> 
                         </div>
                     @endif
                 @endif

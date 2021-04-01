@@ -18,14 +18,18 @@ class CreateSaleTable extends Migration
             $table->integer('serialVenta');
             $table->integer('numeroVenta');
             $table->bigInteger('idProducto');
-            $table->integer('cantidadProducto');
+            $table->integer('cantidadProducto'); 
             $table->integer('subtotal');
-            $table->double('iva');
-            $table->double('total');
+            $table->double('iva', 10, 2);
+            $table->double('ivaAcum', 10, 2);
+            $table->double('descuentoPorcentaje', 10, 2);
+            $table->double('impuesto', 10, 2);
+            $table->double('totalDescontado', 10, 2);
+            $table->double('total', 10, 2);
             $table->bigInteger('idCliente');
             $table->date('fechaEmision');
             $table->bigInteger('idUsuario');
-            $table->boolean('estadoBoolean');
+            $table->boolean('estado');
 
             $table->timestamps();
         });

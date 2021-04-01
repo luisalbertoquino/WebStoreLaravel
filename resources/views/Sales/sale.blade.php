@@ -12,76 +12,108 @@
           </li>
           <li class="breadcrumb-item active">Ventas</li>
           <form method="get" action="/sale/create" style="margin-left: auto;">
+            @if(Auth::user()->permissions->contains('slug', 'createsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
             <button type="submit" class="btn btn-primary" >
               {{ __('Nueva Venta') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
           </button>
+          @endif
             </form>
         </ol>
 
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Registro de Ventas</div>
+          <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
+            <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
+            REGISTRO DE VENTAS</div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead class="thead-dark">
                   <tr>
-                    <th>venta N°</th>
-                    <th>Serial Venta</th>
+                    <th><i class="fa fa-book" aria-hidden="true"></i></th>
+                    <th>Serie</th>
                     <th>Vendedor</th>
-                    <th>Producto</th>
-                    <th>Cantidad Producto</th>
                     <th>Subtotal</th>
                     <th>Iva</th>
                     <th>Total</th>
                     <th>Cliente</th>
-                    <th>Fecha Venta</th>
-                
+                    <th>Fecha</th>
+                    @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <th>Ver</th>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <th>Imprimir</th>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <th>Exportar</th>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'updatesale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <th>Anular</th>
+                    @endif
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>venta N°</th>
-                    <th>Serial Venta</th>
-                    <th>Vendedor</th>
-                    <th>Producto</th>
-                    <th>Cantidad Producto</th>
-                    <th>Subtotal</th>
-                    <th>Iva</th>
-                    <th>Total</th>
-                    <th>Cliente</th>
-                    <th>Fecha Venta</th>
-                  </tr>
-                </tfoot>
 
                 <tbody>
+                  @php
+                      $acum= null;
+                  @endphp
                   @foreach ($venta as $venta)
+                  @if($acum != $venta->serialVenta)
                   <tr>
-                    <td>{{$venta->numeroVenta}}</td>
+                    <td style="width:30px;text-align: center;">{{$venta->numeroVenta}}</td>
                     <td>{{$venta->serialVenta}}</td>
                     <td>{{$venta->usuario['nombre']}}&nbsp{{$venta->usuario['apellido']}}</td>
-                    <td>
-                      @if ($venta->product['estado']==1)
-                      {{$venta->product['nombreProducto']}}
-                      @else
-                      Producto agotado o no dispo
-                      @endif
-                    </td> 
-                    <td>{{$venta->cantidadProducto}}</td>
-                    <td>{{$venta->subtotal}}</td>
-                    <td>{{$venta->iva}}</td>
-                    <td>{{$venta->total}}</td>
+                    <td>{{$venta->subtotal}}.00$</td>
+                    <td>{{$venta->iva}}%</td>
+                    <td>{{$venta->total}}.00$</td>
                     <td>
                       @if ($venta->cliente['estado']==1)
                       {{$venta->cliente['numeroDocumento']}}-{{$venta->cliente['nombre']}}
                       @else
-                      No exist
+                      Sin Registro
                       @endif
                     </td> 
                     <td>{{$venta->fechaEmision}}</td>
+                    <!--ver-->
+                    @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:50px; text-align:center">
+                      <a class="btn btn-warning" href="/sale/{{$venta->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                    @endif
+
+                    <!--imprimir-->
+                    @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:30px; text-align:center">
+                      <a title="Imprimir" class="btn btn-primary" href="javascript:void(0)" id="download"><i class="fa fa-print" aria-hidden="true"></i></a>
+                    </td>
+                    @endif
+
+                    <!--exportar-->
+                    @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:30px; text-align:center">
+                      <a class="btn btn-danger" href="javascript:void(0)" id="download"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                    </td>
+                    @endif
+
+                    <!--anular-->
+                    @if(Auth::user()->permissions->contains('slug', 'updatesale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="text-align: center;width:30px">
+                      <form action="/sale/estado/{{$venta->id}}" method="POST">
+                        @method('PATCH')
+                      {{csrf_field()}}
+                        @if ($venta->estadoBoolean==0)
+                        <button class="btn btn-danger" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        @else
+                        <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        @endif
+                      </form>
+                      @endif
+                    </td>  
                   </tr>
+                  @php
+                      $acum=$venta->serialVenta;
+                  @endphp
+                  @endif
                   @endforeach
                 </tbody>
               </table>
@@ -102,10 +134,10 @@
       $(document).ready(function() {
           $('.js-example-theme-single').select2({theme:"classic"});
           $('#dataTable').DataTable({
-              bLengthChange: false,
+              
           });
 
       });
-  </script>
+  </script> 
 
 @endsection

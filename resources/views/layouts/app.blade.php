@@ -2,6 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <link rel="shortcut icon" href="img/favico.ico" />
+
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,6 +40,101 @@
 </head>
 
 <body id="page-top">
+    <style>
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+        
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
+        
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+        
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+        
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+        
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+        
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+        
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+        
+        .invoice-box table tr.item td{
+            border-bottom: 1px solid #eee;
+        }
+        
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+            
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+        
+        /** RTL **/
+        .rtl {
+            direction: rtl;
+            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        }
+        
+        .rtl table {
+            text-align: right;
+        }
+        
+        .rtl table tr td:nth-child(2) {
+            text-align: left;
+        }
+
+
+        </style>
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -60,27 +157,32 @@
                     <i class="fa fa-power-off" aria-hidden="true"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    @if(Auth::user()->permissions->contains('slug', 'editacount')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <a class="dropdown-item" href="/user/{{ auth()->id() }}/edit">Opciones de cuenta</a>
+                    @endif
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
                 </div>
             </li>
-        </ul>
+        </ul> 
 
     </nav>
 
-    @canany(['view_productos'])
-        <label for="">ME CHUPA TRES PINGOS</label>
-    @endcan
-    <div id="wrapper">
+
+    <div id="wrapper" style="position: sticky">
 
         <!-- Sidebar -->
         <ul class="sidebar navbar-nav"> 
             <li class="nav-item">
-                <a class="nav-link" href="/opcionesPerfil">
-                    <span style="color: #fff;" >{{ auth()->user()->nombre }}&nbsp{{ auth()->user()->apellido }}</span><br><br>
+                <a class="nav-link" href="javascript:void(0)">
+                    <span style="color: #fff;"><h5>{{ auth()->user()->nombre }} {{ auth()->user()->apellido }}</h5></span>
+                    @auth
+                    <span style="color: #fff;" > Rol: {{ Auth::user()->roles->isNotEmpty() ? Auth::user()->roles->first()->nombre : "" }}</span>
+                   
+                    @endauth
+                    <br><br>
                     <img src="/storage/img/perfil.jpg" class="mobile_profile_image circle"  style="height:auto;max-width: 70%;border-radius:150px;border:1px solid #666;background:#ffff" alt="">
-                </a>
+                </a> 
             </li>
 
             <li class="nav-item">
@@ -92,35 +194,73 @@
                 <h6 class="dropdown-header">Business</h6>
 
                 <!--seccion productos-->
+                @if(Auth::user()->permissions->contains('slug', 'viewproduct')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+            <li class="nav-item dropdown">
+                
+                <a class="nav-link dropdown-toggle" href="/product" id="pagesDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-archive" aria-hidden="true"></i>&nbsp
+                    <span>Productos</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/category">Manage Category</a>
+                   <a class="dropdown-item" href="/category/create">New Category</a>
+                    @endif
+                    <div class="dropdown-divider"></div>
+                    
+                   <a class="dropdown-item" href="/product">Product Management</a>
+                    <a class="dropdown-item" href="/product/create">New Product</a>
+                   
+                </div>
+            </li>
+            @endif
+      
+            <!--ventas-->
+
+            @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
             <li class="nav-item dropdown">
                 
                 <a class="nav-link dropdown-toggle" href="/product" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-tags" aria-hidden="true"></i>&nbsp
-                    <span>Productos</span>
+                    <span>Sales</span>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown"> 
-                    <a class="dropdown-item" href="/product">Product Management</a>
-                    <a class="dropdown-item" href="/product/create">New Product</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/category">Manage Category</a>
-                   <a class="dropdown-item" href="/category/create">New Category</a> 
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="/sale">
+                        <span>Manage Sales</span></a>
+                    @if(Auth::user()->permissions->contains('slug', 'createsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/sale/create">
+                        <span>New Sale</span></a>
+                    @endif
                 </div>
             </li>
-            <!--ventas-->
-            <li class="nav-item">
-                <a class="nav-link" href="/sale">
-                    <i class="fa fa-balance-scale" aria-hidden="true"></i>&nbsp
-                    <span>Sales</span></a>
-            </li>
+            @endif
+            
             <!--compras-->
-            <li class="nav-item">
-                <a class="nav-link" href="/shopping">
-                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>&nbsp
-                    <span>Shopping</span></a>
-                <div class="dropdown-divider"></div>
-                <h6 class="dropdown-header">Manage</h6>
-                <!--seccion de socios-->
+
+            @if(Auth::user()->permissions->contains('slug', 'viewpurchase')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/product" id="pagesDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-truck" aria-hidden="true"></i>&nbsp
+                    <span>Shopping</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="/shopping">
+                        <span>Manage Shopping</span></a>
+                    @if(Auth::user()->permissions->contains('slug', 'createpurchase')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/shopping/create">
+                        <span>New Shopping</span></a>
+                    @endif
+                </div>
+            </li>
+            @endif
+
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Manage</h6>
+
+            <!--seccion de socios-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -128,13 +268,18 @@
                     <span>Partners</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    @if(Auth::user()->permissions->contains('slug', 'viewcostumer')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <a class="dropdown-item" href="/client">Customer Management</a>
+                    @endif
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/provider">Partner Management</a>
+                    @if(Auth::user()->permissions->contains('slug', 'viewsupplier')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/provider">Supplier Management</a>
+                    @endif
                 </div>
             </li>
-            </li>
+            
             <!--seccion de reportes--> 
+            @if(Auth::user()->permissions->contains('slug', 'viewreports')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -147,10 +292,11 @@
                     <a class="dropdown-item" href="/Reportes">Reports Articles</a>
                 </div>
             </li>
+            @endif
             </li>
             <!--seccion usuarios-->
             </li>
-            
+            @if(Auth::user()->permissions->contains('slug', 'viewuser')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
             <li class="nav-item dropdown">
                 <div class="dropdown-divider"></div>
                 <h6 class="dropdown-header">Access</h6>
@@ -160,20 +306,55 @@
                     <span>Users</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    @if(Auth::user()->permissions->contains('slug', 'viewrol')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <a class="dropdown-item" href="/roles">All Roles</a>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'createrol')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <a class="dropdown-item" href="/roles/create">New Rol</a>
                     <div class="dropdown-divider"></div>
+                    @endif
                     <a class="dropdown-item" href="/user">All users</a>
+                    @if(Auth::user()->permissions->contains('slug', 'createuser')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <a class="dropdown-item" href="/user/create">New User</a>
+                    @endif
                 </div>
+                <div class="dropdown-divider"></div>
             </li>
-            <div class="dropdown-divider"></div>
+            @endif
+            
+            <!--Seccion admin-->
+            
+
+            @if(Auth::user()->permissions->contains('slug', 'administrador')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
             <h6 class="dropdown-header">Admin</h6>
             <li class="nav-item">
-                <a class="nav-link" href="/config">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp
-                    <span>Opciones del sistema</span></a>
+                    <span>Options System</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    @if(Auth::user()->permissions->contains('slug', 'operationalvariables')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/Bussiness">Operational Variables</a>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'editacount')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/user/{{auth()->user()->id}}/edit">Account Options</a>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'ViewDocument')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/document">Supported Documents</a>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'operationalvariables')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <a class="dropdown-item" href="/Bussiness2">Business Customization</a>
+                    @endif
+                </div>
+                <div class="dropdown-divider"></div>
             </li>
+            @endif
+
+
+
+
             <!--about-->
             <li class="nav-item">
                 <a class="nav-link" href="/about">
@@ -273,6 +454,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"; rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js";></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="https://cdn.bootcss.com/html2pdf.js/0.9.1/html2pdf.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
@@ -284,7 +467,7 @@
  <footer class="sticky-footer">
   <div class="container my-auto">
     <div class="copyright text-center my-auto">
-      <span>Copyright SoftwareFJ 2020</span>
+      <span>Copyright SoftwareFJ 2021</span>
     </div>
   </div>
 </footer>

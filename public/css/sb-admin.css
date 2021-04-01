@@ -11005,6 +11005,34 @@ input:checked + .slider:before {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
+table td {
+  word-wrap: break-word;
+  max-width: 100px;
+}
+
+.sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.myDiv {
+  position: relative;
+  z-index: 1;
+}
+
+.myDiv .bg {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.4;
+  width: 100%;
+  height: 100%;
+}
+
 .smaller {
   font-size: 0.7rem;
 }

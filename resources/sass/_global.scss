@@ -9,6 +9,7 @@ body {
   height: 100%;
 }
 
+
 #wrapper {
   display: flex;
   #content-wrapper {
@@ -310,4 +311,33 @@ input:checked + .slider:before {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
+//datatables
+table td {
+  word-wrap: break-word;
+  max-width: 100px;
+}
+//para menu pegajoso
+.sidebar {
+  position: -webkit-sticky;  // required for Safari
+    position: sticky;
+    top: 0; // required as well.
+}   
+
+//imagen opaca
+.myDiv {
+  position: relative;
+  z-index: 1;
+}
+
+.myDiv .bg {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: .4;
+  width: 100%;
+  height: 100%;
+}
 

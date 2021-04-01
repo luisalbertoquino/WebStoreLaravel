@@ -102,13 +102,7 @@
                     </div>
                 </div>
  
-                <div class="form-group row">
-                    <label for="usuario" class="col-md-4 col-form-label text-md-right">{{ __('Usuario') }}</label>
-    
-                    <div class="col-md-8">
-                        <input id="usuario" type="text" class="form-control" name="usuario" required autocomplete="new-password">
-                    </div>
-                </div>
+
 
                 
 
@@ -207,7 +201,7 @@
                                 });
                             });
 
-                    });
+                    }); 
                     $('.js-example-responsive').select2({theme:"classic"});
                     $('.js-example-theme-single').select2({theme:"classic"});
 

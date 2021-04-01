@@ -6,7 +6,7 @@
       <div class="container-fluid">
 
         <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
+        <ol class="breadcrumb"> 
           <li class="breadcrumb-item">
             <a href="/home">Home</a>
           </li>
@@ -15,8 +15,10 @@
           </li>
           <li class="breadcrumb-item active">Modificar Producto</li>
         </ol>
-        <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666"> 
-            <div class="card-header" style="text-align: center">Modificar Producto&nbsp&nbsp<i class="fa fa-book" aria-hidden="true"></i></div>
+        <div class="card card-login mx-auto mt-1" style="border:1px solid #666"> 
+            <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: italic;">MODIFICAR PRODUCTO&nbsp&nbsp
+                <i class="fa fa-pencil" style="color: #0860b8  ;" aria-hidden="true"></i>
+            </div>
         <div class="card-body">
 
             <!--mensajes de error-->
@@ -35,15 +37,15 @@
                 @csrf
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Nombre Producto') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <input id="nombreProducto" type="text" class="form-control" name="nombreProducto"  autofocus="true" value="{{$producto->nombreProducto}}">
                     </div>
                 </div>
 
 
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Descripcion Producto') }}</label>
-                    <div class="col-md-6">
+                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Descripcion') }}</label>
+                    <div class="col-md-8">
                         <textarea name="detalleProducto" class="form-control" id="detalleProducto" cols="50" rows="3" >{{$producto->detalleProducto}}</textarea>
                     </div>
                     <br>
@@ -51,45 +53,44 @@
         
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Stock') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <input id="stock" type="number" class="form-control" name="stock" value="{{$producto->stock}}">
                     </div>
                 </div>
        
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Costo $') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <input id="costo" type="number" class="form-control" name="costo" value="{{$producto->costo}}" >
                     </div>
                 </div>
     
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('% ganancia') }}</label>
-                    <div class="col-md-6">
-                        <input id="porcentajeGanancia" type="number" class="form-control" name="porcentajeGanancia" value="{{$producto->porcentajeGanancia}}">
+                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Ganancia %') }}</label>
+                    <div class="col-md-8">
+                        <input id="porcentajeGanancia" type="text" class="form-control" name="porcentajeGanancia" value="{{$producto->porcentajeGanancia}}" readonly required>
                     </div>
                 </div>
     
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Valor Venta $') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <input id="valorVenta" type="number" class="form-control" name="valorVenta" value="{{$producto->valorVenta}}">
                     </div>
                 </div>
     
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Categoria') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <select name="idCategoria" id="idCategoria" class="form-control">
                             @foreach ($categorias as $categorias)
-                            @if ($categorias->estado==1){
-                            <option selected="selected" value="{{$producto->category['id']}}">categoria actual: {{$producto->category['categoria']}}</option>
-                            <div class="dropdown-divider"></div>
-                            
+                        @if($categorias->estado==1)
+                            @if ($categorias->id==$producto->category['id'])
+                            <option selected="selected" value={{$categorias->id}}>{{$categorias->categoria}}</option>
+                            @else
                             <option value={{$categorias->id}}>{{$categorias->categoria}}</option>
-                            }
                             @endif
-                            
+                        @endif
                             @endforeach
                         </select>
                     </div>
@@ -97,10 +98,9 @@
     
                 <div class="form-group row">
                     <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Seleccione Estado') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="form-group">
-                            <label>Seleccione estado</label>
-                            <select name="estado" id="estado" value="{{$producto->estado}}">
+                            <select name="estado" id="estado" value="{{$producto->estado}}" class="form-control">
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
@@ -111,10 +111,11 @@
      
     
                 <div class="form-group row mb-0">
-                    <div class="col-md-12 offset-md-1">
+                    <div class="col-md-12 offset-md-3">
                         <br>
+                        <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>
                         <button type="submit" class="btn btn-primary" style="align-content: center;text-lign:center">
-                            {{ __('Editar') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ __('Editar') }}&nbsp&nbsp<i class="fa fa-pencil" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -130,4 +131,22 @@
           </div>
           <!-- /.content-wrapper -->
       
+          <script>
+
+            $(document).ready(function() {
+                document.getElementById("valorVenta").onchange = function(){alerta()};
+            function alerta() {
+                var precioInicial;
+                var precioFinal;
+                var diferencia;
+                var total;
+                precioInicial=document.getElementById("costo").value;
+                precioFinal=document.getElementById("valorVenta").value;
+                diferencia=precioFinal-precioInicial;
+                total=((precioFinal/precioInicial)*100)-100;
+                document.getElementById("porcentajeGanancia").setAttribute('value',total+' %')
+            }
+
+            });
+        </script>
       @endsection

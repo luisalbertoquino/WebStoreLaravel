@@ -8,20 +8,17 @@ use App\Rol;
 use App\Permiso;
 use App\documento;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 
 class UserController extends Controller
 {
-    use RegistersUsers, Hash;
     
-
     public function __construct()
     {
         $this->middleware('auth');
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +28,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = usuario::get();
+        $user = User::get();
         return view('users.allUser',['user'=>$user]);
     }
     /**
@@ -81,7 +78,7 @@ class UserController extends Controller
             'estado'=>'required'
         ]);
 
-        $usuario = new usuario();
+        $usuario = new User();
         //para la imagen del formulario $filename
         //para guardar el id del usuario actual como registro $user=auth()->user() y luego colocar $user->id despues de igual
         $usuario->nombre = request('nombre');
@@ -92,7 +89,7 @@ class UserController extends Controller
         $usuario->telefono=request('telefono');
         $usuario->direccion=request('direccion');
         $usuario->usuario=request('usuario');
-        $usuario->password=\Hash::make($request->password);
+        $usuario->password=$request->password;
         $usuario->estado=request('estado');
         $usuario->save();
 
@@ -117,7 +114,7 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(usuario $user)
+    public function show(User $user)
     {
         return view('users.showUser' , ['user'=>$user]);
     }
@@ -128,9 +125,9 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(usuario $user)
+    public function edit(User $user)
     {
-        $user = usuario::find($user->id);
+        $user = User::find($user->id);
         $piola = $user->id;
         $documento = documento::get();
         $roles= Rol::get();
@@ -163,7 +160,7 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, usuario $piola)
+    public function update(Request $request, User $piola)
     {   
         $user = request()->validate([
             'nombre'=>'required|max:50',
@@ -178,7 +175,7 @@ class UserController extends Controller
             'estado'=>'required',
             'password'=> 'required'
         ]);
-        $usuario = usuario::findOrFail($piola->id);
+        $usuario = User::findOrFail($piola->id);
 
         //para la imagen del formulario $filename
         //para guardar el id del usuario actual como registro $user=auth()->user() y luego colocar $user->id despues de igual
@@ -226,9 +223,9 @@ class UserController extends Controller
     }
 
 
-    public function estado(Request $request, usuario $user){
+    public function estado(Request $request, User $user){
 
-        $user = usuario::findOrFail($user->id);
+        $user = User::findOrFail($user->id);
         if($user->estado==0){
             $user->estado='1';
         }else{

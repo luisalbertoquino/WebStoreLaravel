@@ -53,7 +53,7 @@
                   </tr>
                 </thead>
 
-                <tbody>
+                <tbody> 
                   @php
                       $acum= null;
                   @endphp

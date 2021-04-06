@@ -19,7 +19,7 @@
           <li class="breadcrumb-item active">editar rol {{ $rol['nombre'] }}</li>
         </ol>
         <div class="card card-login mx-auto mt-2" style="border:1px solid #666"> 
-            <div class="card-header" style="text-align: center">Editar Rol&nbsp&nbsp<i class="fa fa-book" aria-hidden="true"></i></div>
+            <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: italic;">Editar Rol&nbsp&nbsp<i class="fa fa-address-card" aria-hidden="true"></i></div>
         <div class="card-body">
  
             <!--mensajes de error-->
@@ -134,6 +134,7 @@
         <div class="form-group row mb-0">
             <div class="col-md-12 offset-md-4">
                 <br>
+                <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>
                 <button type="submit" class="btn btn-primary" style="align-content: center;text-lign:center">
                     {{ __('Actualizar Rol') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
                 </button>

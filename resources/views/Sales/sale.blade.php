@@ -22,7 +22,7 @@
 
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
+          <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: bold;">
             <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
             REGISTRO DE VENTAS
             <span style="float: left">
@@ -41,7 +41,7 @@
                     <th>Subtotal</th>
                     <th>Iva</th>
                     <th>Total</th>
-                    <th>Cliente</th>
+                    <th>Cliente</th> 
                     <th>Fecha</th>
                     <th>Estado</th>
                     @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')

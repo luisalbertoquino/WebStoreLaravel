@@ -80,7 +80,7 @@
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Valor Venta $') }}</label>
                     <div class="col-md-8">
-                        <input id="valorVenta" type="number" class="form-control" name="valorVenta" min="0" step = "any" >
+                        <input id="valorVenta" type="number" class="form-control" name="valorVenta" min="0" step = "any" oninput="alerta()" >
                     </div>
                 </div>
                 
@@ -129,22 +129,19 @@
       
           </div>
           <script>
-
-            $(document).ready(function() {
-                document.getElementById("valorVenta").onchange = function(){alerta()};
-            function alerta() {
-                var precioInicial;
-                var precioFinal;
-                var diferencia;
-                var total;
+              function alerta() {
+                var precioInicial=0;
+                var precioFinal=0;
+                var diferencia=0;
+                var total=0;
                 precioInicial=document.getElementById("costo").value;
                 precioFinal=document.getElementById("valorVenta").value;
                 diferencia=precioFinal-precioInicial;
                 total=((precioFinal/precioInicial)*100)-100;
-                document.getElementById("porcentajeGanancia").setAttribute('value',total+' %')
+                document.getElementById("porcentajeGanancia").setAttribute('value',total+' % ( $'+diferencia+'.00)')
             }
 
-            });
+            
         </script>
       
       @endsection

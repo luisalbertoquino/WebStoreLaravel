@@ -19,7 +19,7 @@
           <li class="breadcrumb-item active">Crear nuevo Rol</li>
         </ol>
         <div class="card card-login mx-auto mt-2" style="border:1px solid #666"> 
-            <div class="card-header" style="text-align: center">Nuevo Rol&nbsp&nbsp<i class="fa fa-book" aria-hidden="true"></i></div>
+            <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: italic;">Nuevo Rol&nbsp&nbsp<i class="fa fa-address-card" aria-hidden="true"></i></div>
         <div class="card-body">
 
             <!--mensajes de error-->
@@ -50,12 +50,10 @@
           </div>
       </div>
 
-        <label for="descripcion" class="col-md-6 col-form-label text-md-right">{{ __('Add Permissions') }}</label>
-        
-
     <div class="form-group row">
-      <div class="col-md-6">
-        <select class="js-example-responsive" multiple data-live-search="true" id="role_permisions2" name="role_permisions2" style="width: 250px" onchange="fock.call(this, event)">
+      <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Add Permissions') }}</label>
+      <div class="col-md-8">
+        <select class="js-example-responsive form-control "  multiple data-live-search="true" id="role_permisions2" name="role_permisions2"  onchange="fock.call(this, event)">
           <option>administrador</option>
           <!--Permisos para categoria-->
           <option>ViewCategory</option>
@@ -117,16 +115,14 @@
       </select>
       </div>
   </div>
-  <div class="form-group" >
-    <label for="roles_permissions">Add Permissions</label>
-    <input type="text" data-role="tagsinput" name="roles_permissions" class="form-control" id="roles_permissions" value="{{ old('roles_permissions') }}">   
-</div>     
+  
 
   <input id="hftest" type="text" class="form-control" name="hftest" autofocus="true" readonly hidden>
   
         <div class="form-group row mb-0">
             <div class="col-md-12 offset-md-4">
                 <br>
+                <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>
                 <button type="submit" class="btn btn-primary" style="align-content: center;text-lign:center">
                     {{ __('Registrar Rol') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
                 </button>

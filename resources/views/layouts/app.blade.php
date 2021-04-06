@@ -287,9 +287,10 @@
                     <span>Reports</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" href="/Reportess">Sales Reports</a>
+                    <a class="dropdown-item" href="/Reportess">Sales</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/Reportes">Reports Articles</a>
+                    <a class="dropdown-item" href="/Reportes" style="font-size:15px; color:green ;font-weight: bold;">Best sellers</a>
+                    <a class="dropdown-item" href="/Reportesss" style="font-size:15px; color:red ;font-weight: bold;">Less sold</a>
                 </div>
             </li>
             @endif
@@ -464,6 +465,9 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
 <script type="text/javascript" src="{{ asset('js/jquery.uitablefilter.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
 
 <script src=" {{ asset('/js/jspdf.debug.js') }}"></script>
 <script type="text/javascript" src="/js/jspdf.plugin.autotable.min.js"></script>

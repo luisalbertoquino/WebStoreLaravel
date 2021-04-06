@@ -13,17 +13,23 @@
           <li class="breadcrumb-item active">Roles</li>
           <li class="breadcrumb-item active">Roles Creados</li>
           <form method="get" action="/roles/create" style="margin-left: auto;">
+            @if(Auth::user()->permissions->contains('slug', 'createrol')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
           <button type="submit" class="btn btn-primary" >
             {{ __('Registrar nuevo Rol en el Sistema') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
         </button>
+            @endif
           </form>
         </ol>
  
         <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            &nbsp&nbsp&nbsp&nbspRegistro de Roles</div>
+        <div class="card mb-3"> 
+          <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: bold;">
+            <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
+            REGISTRO DE ROLES
+            <span style="float: left">
+              <a href="/sale3" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+          </span>
+          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -33,7 +39,9 @@
                     <th style="text-align: center;">Role</th>
                     <th style="text-align: center;">Slug</th>
                     <th style="text-align: center;">Permissions</th>
+                    @if(Auth::user()->permissions->contains('slug', 'viewrol')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Tools</th>
+                    @endif
                   </tr>
                 </thead>
         
@@ -43,7 +51,7 @@
                         <td style="width:50px;">{{ $roles['id'] }}</td>
                         <td style="width:100px;">{{ $roles['nombre'] }}</td>
                         <td style="width:100px;">{{ $roles['slug'] }}</td>
-                        <td style="width:450px;">
+                        <td style="width:100px;">
                             @if($roles->permissions != null)
                               @foreach($roles->permissions as $permission)
                                 <span class="badge badge-secondary">
@@ -52,10 +60,21 @@
                               @endforeach
                             @endif
                         </td> 
-                        <td style="text-align: center">
+                        <td style="text-align: center;width:100px;">
+                          <!--ver-->
+                          @if(Auth::user()->permissions->contains('slug', 'viewrol')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                             <a class="btn btn-warning" href="/roles/{{ $roles['id'] }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                          @endif
+
+                          <!--editar-->
+                          @if(Auth::user()->permissions->contains('slug', 'updaterol')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                                 <a class="btn btn-primary" href="/roles/{{ $roles['id'] }}/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <a class="btn btn-danger"  data-toggle="modal" data-target="#deleteModal" data-postid="{{$roles['id']}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                          @endif
+
+                          <!--eliminar (solo admin)-->
+                          @if(Auth::user()->roles->first()->nombre=='Administrador Main')
+                                <a class="btn btn-danger"  href="javascript:void(0)"  data-toggle="modal" data-target="#deleteModal" data-postid="{{$roles['id']}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                          @endif
                         </td>
                     </tr>
                   
@@ -114,7 +133,6 @@
     $(document).ready(function() {
         $('.js-example-theme-single').select2({theme:"classic"});
         $('#dataTable').DataTable({
-            bLengthChange: false,
         });
   
     });

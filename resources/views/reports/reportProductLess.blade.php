@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <div id="content-wrapper"> 
 
       <div class="container-fluid">
@@ -12,43 +11,60 @@
           </li>
           <li class="breadcrumb-item active">Informes</li>
           <li class="breadcrumb-item active">Informe Productos</li>
+          <li class="breadcrumb-item">
+            <a href="/home">Informe Productos menos vendidos</a>
+          </li>
         </ol>
 
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header" style="text-align: center">
-            <i class="fas fa-table"></i>
-            Generar  Nuevo Informe de Productos
-            <span style="float: right">
-            <button type="submit" class="btn btn-primary" >
-                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-            </button></span>
+          <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
+            <i class="fas fa-calendar"></i>
+            REPORTE DE PRODUCTOS MENOS VENDIDOS:<br> Seleccione la fecha inicial, fecha final y si desea filtrar por categoria
+            <span style="float: left">
+              <a href="/product2" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+          </span>
         </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                <div class="form-group row">
+                  <!--Fecha inicial-->
+                  <div class="form-group row">
+                    <label for="descripcion" class="col-md-6 col-form-label text-md-right">{{ __('Fecha Inicial') }}</label>
+                    <div class="col-md-6">
+                          <input id="Date_search" size="10" type="input"  class="from-control">
+                    </div>
+                </div>
 
-                <span style="float:left">
-                    <input id="Date_search" style="form-control" size="25" type="date" placeholder="Fecha Inicial"  class="from-control" />
-                    <button type="reset" class="reset" onclick="limpiar()"><i class="fa fa-repeat"
-                        aria-hidden="true"></i></button>&ensp;&ensp;</span>
-                <span style="float:center">
-                            <input id="Date_search2" style="form-control" size="25" type="date" placeholder="Fecha Final"  class="from-control"/>
-                            <button type="reset" class="reset" onclick="limpiar()"><i class="fa fa-repeat"
-                                aria-hidden="true"></i></button>&ensp;&ensp;
-                            <select class="js-example-basic-single "  data-live-search="true" style="form-control" >
-                                <option value="" disabled selected style="form-control">Buscar por Proveedor</option>
-                                @foreach ($categoria as $categoria)
-                                    @if ($categoria->estado==1){
-                                        <option value={{$categoria->id}}>{{$categoria->categoria}}</option>
-                                     }
-                                   @endif
-                                    @endforeach
-                              </select>
-                            
-                            <button type="reset" class="reset" id="clienteSearch"><i class="fa fa-search" aria-hidden="true"
-                                onclick="buscarCliente()"></i></button>
-                  </span>
+                <!--Fecha final-->
+                <div class="form-group row">
+                  <label for="descripcion" class="col-md-6 col-form-label text-md-right">{{ __('Fecha Final') }}</label>
+                  <div class="col-md-6">
+                    <input id="Date_search2" size="10" type="input"  class="from-control" />
+                  </div>
+              </div>
+
+              <!--Selector categoria-->
+              <div class="form-group row">
+                <label for="descripcion" class="col-md-6 col-form-label text-md-right">{{ __('Categoria') }}</label>
+                <div class="col-md-6">
+                  <select class="js-example-basic-single form-control "  onchange="buscarCliente()" data-live-search="true"  >
+                      <option value="" disabled selected style="form-control">Buscar por Categoria</option>
+                      @foreach ($categoria as $categoria)
+                          @if ($categoria->estado==1){
+                              <option value={{$categoria->id}}>{{$categoria->categoria}}</option>
+                          }
+                        @endif
+                          @endforeach
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+
+          <!--continuacion de la tabla-->
                 <thead class="thead-dark">
                   <tr>
                     <th>id</th>
@@ -59,25 +75,9 @@
                     <th>% Ganancia</th>
                     <th>valor de venta</th>
                     <th>categoria</th>
-                    <th>estado</th>
-                    <th>editar</th>
                 
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>id</th>
-                    <th>Producto</th>
-                    <th>Descripcion</th>
-                    <th>Stock</th>
-                    <th>Costo</th>
-                    <th>% Ganancia</th>
-                    <th>valor de venta</th>
-                    <th>categoria</th>
-                    <th>estado</th>
-                    <th>editar</th>
-                  </tr>
-                </tfoot>
 
                 <tbody>
                   @foreach ($productos as $productos)
@@ -95,25 +95,6 @@
                       @else
                       No hay categoria disponible
                       @endif
-                      </td>
-                     
-                    <td  style="text-align: center;">
-                      <!--cambiar estado-->
-                      <form action="/product/estado/{{$productos->id}}" method="POST">
-                        @method('PATCH')
-                      {{csrf_field()}}
-                        @if ($productos->estado==0)
-                        <button class="btn btn-danger" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-                        @else
-                        <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
-                        @endif
-                      </form>
-                      </td> 
-                      <!--editar-->
-                      <td style="text-align: center;">
-                        <form action="/product/{{ $productos['id'] }}/edit" method="GET">
-                          <button type="submit" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                        </form>
                       </td>
                   </tr>
                   @endforeach

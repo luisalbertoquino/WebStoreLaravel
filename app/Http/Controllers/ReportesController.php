@@ -24,7 +24,7 @@ class ReportesController extends Controller
     {
         $productos = producto::get();
         $categoria = categoria::get();
-        return view('reports.reportProduct',['productos'=>$productos,'categoria'=>$categoria]);
+        return view('reports.reportProductMore',['productos'=>$productos,'categoria'=>$categoria]);
     }
 
     public function index2()
@@ -34,6 +34,13 @@ class ReportesController extends Controller
         $usuario = User::get();
         $cliente = cliente::get();
         return view('reports.reportSale',['venta'=>$venta,'producto'=>$producto,'usuario'=>$usuario,'cliente'=>$cliente]);
+    }
+
+    public function index3()
+    {
+        $productos = producto::get();
+        $categoria = categoria::get();
+        return view('reports.reportProductLess',['productos'=>$productos,'categoria'=>$categoria]);
     }
 
     /**

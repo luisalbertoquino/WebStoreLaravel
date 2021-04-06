@@ -16,7 +16,7 @@
           <li class="breadcrumb-item active">Modificar Usuario</li>
         </ol>
         <div class="card card-login mx-auto mt-2" style="border:1px solid #666"> 
-            <div class="card-header" style="text-align: center">Modificar Usuario Seleccionado &nbsp&nbsp<i class="fa fa-book" aria-hidden="true"></i></div>
+            <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: italic;">Modificar Usuario Seleccionado &nbsp&nbsp<i class="fa fa-address-book" aria-hidden="true"></i></div>
         <div class="card-body">
 
             <!--mensajes de error-->
@@ -162,13 +162,14 @@
                 </div>
                 </div>
     
-                <div class="form-group row mb-0">
-                    <div class="col-md-8 offset-md-3">
+             
+                <div class="form-group pt-2">
+                        <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>
                         <button type="submit" class="btn btn-primary">
                             {{ __('Modificar Usuario') }}
                         </button>
                     </div>
-                </div>
+    
             </form>
 
             @section('js_user_page')

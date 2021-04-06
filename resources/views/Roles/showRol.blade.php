@@ -19,7 +19,7 @@
           <li class="breadcrumb-item active">Mostrar Rol</li>
         </ol>
         <div class="card card-login mx-auto mt-2" style="border:1px solid #666"> 
-            <div class="card-header" style="text-align: center">Informacion Rol&nbsp&nbsp<i class="fa fa-book" aria-hidden="true"></i></div>
+            <div class="card-header"  style="text-align: center;font-size:20px; color:#34495E ;font-weight: italic;">Informacion Rol&nbsp&nbsp<i class="fa fa-address-card" aria-hidden="true"></i></div>
         <div class="card-body">
 
             <!--mensajes de error-->

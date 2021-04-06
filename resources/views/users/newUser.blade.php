@@ -7,7 +7,7 @@
 
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">
+          <li class="breadcrumb-item"> 
             <a href="/home">Home</a>
           </li>
           <li class="breadcrumb-item active">
@@ -32,7 +32,7 @@
     
     <div class="container"  >
        
-          <div class="card-header" style="text-align: center">Registrar Nuevo Usuario - StoreSystem FJ&nbsp&nbsp&nbsp<i class="fa fa-spinner" aria-hidden="true"></i></div>
+          <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: italic;">Registrar Nuevo Usuario - StoreSystem FJ&nbsp&nbsp&nbsp<i class="fa fa-address-book" aria-hidden="true"></i></div>
           <div class="card-body">
             <form method="POST" action="/user">
                 @csrf
@@ -149,6 +149,7 @@
                 </div>
 
                 <div class="form-group pt-2">
+                    <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>
                     <input type="submit" class="btn btn-primary" value="Registrar Usuario">
                 </div>
             </form>

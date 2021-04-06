@@ -2,7 +2,7 @@
 @section('content')
 
     <div id="content-wrapper">
-
+ 
       <div class="container-fluid">
 
         <!-- Breadcrumbs-->
@@ -24,7 +24,11 @@
         <div class="card mb-3">
           <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
             <i class="fa fa-th-large" style="color: #0860b8  ;" aria-hidden="true"></i>&nbsp&nbsp
-            CATEGORIAS REGISTRADAS</div>
+            CATEGORIAS REGISTRADAS
+            <span style="float: left">
+              <a href="/category2" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+          </span>
+          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -61,7 +65,7 @@
                       @method('PATCH')
                       {{csrf_field()}}
                       @if ($categorias->estado==0)
-                      <button class="btn btn-danger" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                      <button class="btn btn-danger" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
                       @else
                       <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
                       @endif

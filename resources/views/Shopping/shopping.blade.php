@@ -24,7 +24,11 @@
         <div class="card mb-3">
           <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
             <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
-            REGISTRO DE COMPRAS</div>
+            REGISTRO DE COMPRAS
+            <span style="float: left">
+              <a href="/shopping3" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+          </span>
+          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -84,11 +88,11 @@
                      <a class="btn btn-warning" href="/shopping/{{$compra->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                    </td>
                    @endif
-
+ 
                    <!--imprimir-->
                    @if(Auth::user()->permissions->contains('slug', 'viewpurchase')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                    <td style="width:30px; text-align:center">
-                     <a title="Imprimir" class="btn btn-primary" href="javascript:void(0)" id="download"><i class="fa fa-print" aria-hidden="true"></i></a>
+                     <a title="Imprimir" class="btn btn-primary" href="/shopping2/{{$compra->id}}" id="download"><i class="fa fa-print" aria-hidden="true"></i></a>
                    </td>
                    @endif
 
@@ -106,7 +110,7 @@
                        @method('PATCH')
                      {{csrf_field()}}
                        @if ($compra->estado==0)
-                       <button class="btn btn-danger" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                       <button class="btn btn-danger" type="submit" disabled><i class="fa fa-refresh" aria-hidden="true"></i></button>
                        @else
                        <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
                        @endif

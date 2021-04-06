@@ -47,6 +47,7 @@ Route::delete('/user/{usuario}', 'UserController@destroy')->middleware('permiso:
 Route::get('/category', 'CategoryController@index')->middleware('permiso:viewcategory,administrador-main');               
 Route::get('/category/create', 'CategoryController@create')->middleware('permiso:createcategory,administrador-main'); 
 Route::get('/category/{categoria}', 'CategoryController@show')->middleware('permiso:viewcategory,administrador-main'); 
+Route::get('/category2', 'CategoryController@show2')->middleware('permiso:viewcategory,administrador-main'); 
 Route::post('/category', 'CategoryController@store')->middleware('permiso:updatecategory,administrador-main'); 
 Route::get('/category/{categoria}/edit', 'CategoryController@edit')->middleware('permiso:updatecategory,administrador-main'); 
 Route::patch('/category/{categoria}', 'CategoryController@update')->middleware('permiso:updatecategory,administrador-main'); 
@@ -57,7 +58,8 @@ Route::delete('/category/{categoria}', 'CategoryController@destroy')->middleware
 //Route::resource('/product','ProductController')->middleware('can:isAdmin');   //forma rapida
 Route::get('/product', 'ProductController@index')->middleware('permiso:viewproduct,administrador-main'); 
 Route::get('/product/create', 'ProductController@create')->middleware('permiso:createproduct,administrador-main'); 
-Route::get('/product/{productos}', 'ProductController@show')->middleware('permiso:viewproduct,administrador-main'); 
+Route::get('/product/{productos}', 'ProductController@show')->middleware('permiso:viewproduct,administrador-main');
+Route::get('/product2', 'ProductController@show2')->middleware('permiso:viewproduct,administrador-main'); 
 Route::post('/product', 'ProductController@store')->middleware('permiso:updateproduct,administrador-main'); 
 Route::get('/product/{productos}/edit', 'ProductController@edit')->middleware('permiso:updateproduct,administrador-main'); 
 Route::patch('/product/{producto}', 'ProductController@update')->middleware('permiso:updateproduct,administrador-main'); 
@@ -69,7 +71,9 @@ Route::delete('/product/{productos}', 'ProductController@destroy')->middleware('
 //Ventas
 Route::get('/sale', 'SaleController@index')->middleware('permiso:viewsale,administrador-main'); 
 Route::get('/sale/create', 'SaleController@create')->middleware('permiso:createsale,administrador-main'); 
-Route::get('/sale/{venta}', 'SaleController@show')->middleware('permiso:viewsale,administrador-main'); 
+Route::get('/sale/{venta}', 'SaleController@show')->middleware('permiso:viewsale,administrador-main');
+Route::get('/sale2/{venta}', 'SaleController@show2')->middleware('permiso:viewsale,administrador-main');
+Route::get('/sale3', 'SaleController@show3')->middleware('permiso:viewsale,administrador-main');   
 Route::post('/sale', 'SaleController@store')->middleware('permiso:updatesale,administrador-main'); 
 Route::get('/sale/{venta}/edit', 'SaleController@edit')->middleware('permiso:updatesale,administrador-main'); 
 Route::patch('/sale/{venta}', 'SaleController@update')->middleware('permiso:updatesale,administrador-main'); 
@@ -81,6 +85,8 @@ Route::delete('/sale/{venta}', 'SaleController@destroy')->middleware('permiso:do
 Route::get('/shopping', 'ShoppingController@index')->middleware('permiso:viewpurchase,administrador-main'); 
 Route::get('/shopping/create', 'ShoppingController@create')->middleware('permiso:createpurchase,administrador-main'); 
 Route::get('/shopping/{compra}', 'ShoppingController@show')->middleware('permiso:viewpurchase,administrador-main'); 
+Route::get('/shopping2/{compra}', 'ShoppingController@show2')->middleware('permiso:viewpurchase,administrador-main'); 
+Route::get('/shopping3', 'ShoppingController@show3')->middleware('permiso:viewpurchase,administrador-main'); 
 Route::post('/shopping', 'ShoppingController@store')->middleware('permiso:updatepurchase,administrador-main'); 
 Route::get('/shopping/{compra}/edit', 'ShoppingController@edit')->middleware('permiso:updatepurchase,administrador-main'); 
 Route::patch('/shopping/{compra}', 'ShoppingController@update')->middleware('permiso:updatepurchase,administrador-main'); 
@@ -157,6 +163,18 @@ Route::patch('/roles/{rol}', 'rolesController@update')->middleware('permiso:upda
 Route::patch('/roles/estado/{rol}', 'rolesController@estado')->middleware('permiso:updaterol,administrador-main');
 Route::delete('/roles/{rol}', 'rolesController@destroy')->middleware('permiso:downrol,administrador-main');
 
+//para funcion de pdf
+Route::get('/ope',function(){
+
+    $pdf = PDF::loadView('about');
+    return $pdf->download();
+});
+
+//imagen logo
+Route::get('/media/{img}', function ($img) {
+    $image = Image::make(Storage::url($img));
+  return Response::make($image->encode('jpg'), 200, ['Content-Type' => 'image/jpeg']);
+  });
 
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');

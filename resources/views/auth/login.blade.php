@@ -19,7 +19,7 @@
 
 </head>
 
-<body style="background-image: url({{ asset ('/storage/img/login.jpg')}});background-position:center;"  >
+<body style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),  url({{ asset ('/storage/img/login.jpg')}});background-position:center;"  >
 
 <div class="row no-gutter"  >
     <div class="card card-login mx-auto mt-5">
@@ -73,12 +73,6 @@
                 <button type="submit" class="btn btn-primary">
                     {{ __('Login') }}
                 </button>
-
-                @if (Route::has('password.request'))
-                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                        {{ __('Forgot Your Password?') }}
-                    </a>
-                @endif
             </div>
         </div>
         </form>

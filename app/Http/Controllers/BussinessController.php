@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\negocio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BussinessController extends Controller
 {
@@ -138,17 +139,22 @@ class BussinessController extends Controller
             'telefono'=>'required',
             'email'=>'required',
             'paginaWeb'=>'required',
-
-
+            'logo' => 'image|max:15360' ,
+            'nombreLogo' => 'image|max:15360',
             ]);
 
             
             $configs = negocio::find(1);
             if(request('logo')!=null){
-                $configs->logo=$request->file('logo')->store('public');
+                $imgn=$request->file('logo')->store('public');
+                $url = Storage::url($imgn);
+                $configs->logo=$url;
             }elseif(request('nombreLogo')!=null){
-                $configs->nombreLogo=$request->file('nombreLogo')->store('public');
+                $imgn2=$request->file('nombreLogo')->store('public');
+                $url = Storage::url($imgn2);
+                $configs->nombreLogo=$url;
             }
+            
 
             $configs->nombreEmpresa= request('nombreEmpresa');
             $configs->razonSocial= request('razonSocial');

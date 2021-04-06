@@ -18,13 +18,16 @@
           </button>
           @endif 
             </form>
-        </ol>
+        </ol> 
 
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
             <i class="fa fa-archive" style="color: #964B00;" aria-hidden="true"></i>&nbsp&nbsp
-            PRODUCTOS REGISTRADOS</div>
+            PRODUCTOS REGISTRADOS
+            <span style="float: left">
+              <a href="/product2" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+          </span></div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -58,56 +61,56 @@
                   @foreach ($productos as $productos)
                   <tr>
                     @if($productos->category['estado']==1)
-                    <td style="width:30px;text-align: center;">{{$productos->id}}</td>
-                    <td style="width:70px;" class="a">{{$productos->nombreProducto}}</td>
-                    <td style="width:120px;" class="a">{{$productos->detalleProducto}}</td>
-                    <td style="width:30px;">{{$productos->stock}} c/u</td>
-                    <td style="width:30px;text-align: center;">{{$productos->valorVenta}}.00$</td>
-                    <td style="width:30px;">
-                      <!--Categoria-->
-                      @if ($productos->category['estado']==1)
-                      {{$productos->category['categoria']}}
-                      @else
-                      No hay categoria disponible
-                      @endif
-                    </td> 
-                    <!--Estado-->
-                    @if(Auth::user()->permissions->contains('slug', 'updatecategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <td style="text-align: center;width:50px">
-                      <form action="/product/estado/{{$productos->id}}" method="POST">
-                        @method('PATCH')
-                      {{csrf_field()}}
-                        @if ($productos->estado==0)
-                        <button class="btn btn-danger" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                      <td style="width:30px;text-align: center;">{{$productos->id}}</td>
+                      <td style="width:70px;" class="a">{{$productos->nombreProducto}}</td>
+                      <td style="width:120px;" class="a">{{$productos->detalleProducto}}</td>
+                      <td style="width:30px;">{{$productos->stock}} c/u</td>
+                      <td style="width:30px;text-align: center;">{{$productos->valorVenta}}.00$</td>
+                      <td style="width:30px;">
+                        <!--Categoria-->
+                        @if ($productos->category['estado']==1)
+                        {{$productos->category['categoria']}}
                         @else
-                        <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        Categoria no definida
                         @endif
-                      </form>
-                    </td>
-                    @endif 
+                      </td> 
+                      <!--Estado-->
+                      @if(Auth::user()->permissions->contains('slug', 'updatecategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                      <td style="text-align: center;width:50px">
+                        <form action="/product/estado/{{$productos->id}}" method="POST">
+                          @method('PATCH')
+                        {{csrf_field()}}
+                          @if ($productos->estado==0)
+                          <button class="btn btn-danger" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                          @else
+                          <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                          @endif
+                        </form>
+                      </td>
+                      @endif 
 
-                    <!--ver-->
-                    @if(Auth::user()->permissions->contains('slug', 'viewproduct')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                      <!--ver-->
+                      @if(Auth::user()->permissions->contains('slug', 'viewproduct')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                      <td style="width:70px; text-align:center">
+                        <a class="btn btn-warning" href="/product/{{$productos->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                      </td>
+                      @endif 
+
+                      <!--editar-->
+                      @if(Auth::user()->permissions->contains('slug', 'updateproduct')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                      <td style="text-align: center;width:50px">
+                        <form action="/product/{{ $productos['id'] }}/edit" method="GET">
+                          <button type="submit" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                        </form>
+                      </td>
+                      @endif
+
+                    <!--eliminar-->
+                    @if(Auth::user()->roles->first()->nombre=='Administrador Main')
                     <td style="width:70px; text-align:center">
-                      <a class="btn btn-warning" href="/product/{{$productos->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    </td>
-                    @endif 
-
-                    <!--editar-->
-                    @if(Auth::user()->permissions->contains('slug', 'updateproduct')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <td style="text-align: center;width:50px">
-                      <form action="/product/{{ $productos['id'] }}/edit" method="GET">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                      </form>
+                      <a class="btn btn-danger" href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal" data-postid="{{$productos->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                     </td>
                     @endif
-
-                  <!--eliminar-->
-                  @if(Auth::user()->roles->first()->nombre=='Administrador Main')
-                  <td style="width:70px; text-align:center">
-                    <a class="btn btn-danger" href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal" data-postid="{{$productos->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                  </td>
-                  @endif
 
                   @endif
                 </tr>

@@ -9,6 +9,7 @@ use App\cliente;
 use App\documento;
 use App\negocio;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class SaleController extends Controller
 { 
@@ -138,6 +139,32 @@ class SaleController extends Controller
         return view('Sales.showSale', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
     }
 
+    public function show2(venta $venta)
+    {   
+        $ventaOp = venta::find($venta);
+        $usuario = User::get();
+        $cliente = cliente::get();
+        $ventaFull = venta::get();
+        $documento= documento::get();
+        $config= negocio::find(1);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => TRUE, 'isRemoteEnabled' => TRUE, "enable_php" => TRUE,"allow_url_fopentrue" =>TRUE])->loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        return $pdf->download('Venta'.$venta->serialVenta.'.pdf');
+        //return view('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+    }
+
+    public function show3()
+    {   
+        $usuario = User::get();
+        $cliente = cliente::get();
+        $venta = venta::get();
+        $documento= documento::get();
+        $config= negocio::find(1);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteVentas', ['venta'=>$venta,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        return $pdf->show();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -170,5 +197,18 @@ class SaleController extends Controller
     public function destroy(venta $venta)
     {
         //
+    }
+
+    public function estado(Request $request, venta $venta){
+
+        $sale = venta::findOrFail($venta->id);
+        if($sale->estado==0){
+            $sale->estado='1';
+        }else{
+            $sale->estado='0';
+        }
+        $sale->save();
+
+        return redirect('/sale');
     }
 }

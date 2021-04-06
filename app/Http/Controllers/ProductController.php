@@ -6,7 +6,10 @@ use App\producto;
 use App\categoria;
 use Illuminate\Http\Request;
 use DB;
+use App\negocio;
 use Illuminate\Support\Facades\Gate;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 class ProductController extends Controller
 { 
@@ -86,7 +89,17 @@ class ProductController extends Controller
         $categorias = producto::get();
         //
         return view('Products.showProduct', ['producto'=>$productos,'categorias'=>$categorias]);
-    } 
+    }
+    
+    public function show2()
+    {   
+        $productos = producto::get();
+        $categorias = categoria::get();
+        $config= negocio::find(1); 
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteProductos', ['producto'=>$productos,'categorias'=>$categorias,'config'=>$config]);
+        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        return $pdf->download();
+    }
 
     /**
      * Show the form for editing the specified resource.

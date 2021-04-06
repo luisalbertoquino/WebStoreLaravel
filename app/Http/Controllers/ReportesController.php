@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\venta;
 use App\producto;
 use App\categoria;
-use App\User;
+use App\User; 
 use App\cliente;
 use Illuminate\Http\Request;
 

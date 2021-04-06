@@ -111,7 +111,7 @@
                         @endif
 
                         <!--producto-->
-                    <div class="card mb-3">
+                    <div class="card mb-3" >
                         <label for="descripcion" class="col-md-2 col-form-label text-md-right"></label>
                         <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
                             <i class="fa fa-th-large" style="color: #0860b8  ;" aria-hidden="true"></i>&nbsp&nbsp
@@ -182,18 +182,15 @@
                                 </table>
                             </div>
                         
-                    </div>   
-
+                    </div>  
                        
                 </div>
 
 
                 <!--opcion Comprar-->
                 <div class="form-group row col-md-5">
-                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-success " >{{ __('Comprar') }}
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-success " >{{ __('Registrar Compra') }}
                         </button>&nbsp&nbsp
-                            <a class="btn btn-danger" href="javascript:void(0)" id="download"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-                            <a href="javascript:void(0)" onclick="javascript:demoFromHTML()">PDF</a>
                 </div>
                 <!--estado-->
                 <div class="form-group row">
@@ -222,7 +219,7 @@
 
 
             <!--vista previa de factura************************************************************************-->
-            <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666;">
+            <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666;" >
                 <input id="fechaEmision2" type="date" class="form-control" name="fechaEmision2" value="{{ $fecha }}" readonly>
                 <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">Lista de compras &nbsp&nbsp<i class="fa fa-list" aria-hidden="true"></i> </div>
 
@@ -286,12 +283,12 @@
              <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666;" id="pdf" name="pdf">
                 <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">Factura Generada &nbsp&nbsp<i class="fa fa-list" aria-hidden="true"></i> </div>
                 <!--ACA VIENE EL COPY Y PASTE DE L ANUEVA FACTURA-->
-                <div class="card" >
-                    <div class="container">
+                <div class="card" id="card1">
+                    <div class="container" id="card">
                         <div class="invoice-box">
                             
                             <div class="table-responsive">
-                            <table class="table" id="tablita" cellpadding="0" cellspacing="0" style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url({{ Storage::url($config->nombreLogo)}}); background-repeat: no-repeat;">
+                            <table class="table" id="tablita" cellpadding="0" cellspacing="0" style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url({{ Storage::url($config->nombreLogo)}}); background-repeat: no-repeat;background-size:100%;background-position: center;">
                                 
                                 <tr class="top">
                                     <td colspan="2">
@@ -338,7 +335,7 @@
                                     </td>
             
                                     <td>
-                                        Rcibido por
+                                        Recibido por
                                     </td>
                                     
                                     
@@ -401,6 +398,9 @@
             
                 </div>
 
+               
+
+
             </div>
         </form>
         </div>
@@ -408,6 +408,15 @@
         
 
         <script>
+
+    
+
+
+
+
+
+
+
             //variables de la primera vista
             var subtotal = 0;
             var total = 0;
@@ -436,13 +445,15 @@
 
             $(function() { 
                 $('#download').click(function() {
-                var options = {
-                };
-                var pdf = new jsPDF('p', 'pt', 'a4');
-                pdf.addHTML($("#pdf"), 30, 30, options, function() {
-                    nide=document.getElementById("factura").value;
-                    pdf.save('C:/Users/alber/Desktop/WebStoreLaravel/resources/facturas/Factura '+nide+'.pdf');
-                });
+                    var element = document.getElementById('card1');
+                html2pdf(element, {
+                margin: 0,
+                filename: 'myfile.pdf',
+                image: { type: 'jpeg', quality: 1},
+                html2canvas: { scale: 2, logging: true },
+                jsPDF: { unit: 'in', format: 'a4' }
+});
+                      
                 });
                 });
             

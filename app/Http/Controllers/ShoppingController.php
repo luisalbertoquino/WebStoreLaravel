@@ -7,6 +7,7 @@ use App\proveedor;
 use App\producto;
 use App\negocio;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ShoppingController extends Controller
 {
@@ -111,14 +112,35 @@ class ShoppingController extends Controller
      */
     public function show(compra $compra)
     {
-        $compraOp = venta::find($compra);
-        $usuario = User::get();
+        $compraOp = compra::find($compra);
         $proveedor = proveedor::get();
         $producto = producto::get();
         $compra = compra::get();
         $config= negocio::find(1); 
       
-        return view('Shopping.showShopping',['compra'=>$compra,'proveedor'=>$proveedor,'producto'=>$producto,'config'=>$config,'usuario'=>$usuario]);
+        return view('Shopping.viewShopping',['compra'=>$compra,'proveedor'=>$proveedor,'producto'=>$producto,'config'=>$config]);
+    }
+
+    public function show2(compra $compra)
+    {   
+        $compraOp = compra::find($compra);
+        $proveedor = proveedor::get();
+        $producto = producto::get();
+        $compra = compra::get();
+        $config= negocio::find(1); 
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteCompra', ['compra'=>$compra,'proveedor'=>$proveedor,'producto'=>$producto,'config'=>$config]);
+        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        return $pdf->download();
+    }
+
+    public function show3()
+    {   
+        $compra = compra::get();
+        $proveedor = proveedor::get();
+        $producto = producto::get();
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteCompras', ['compra'=>$compra,'proveedor'=>$proveedor,'producto'=>$producto]);
+        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        return $pdf->download();
     }
 
     /**
@@ -157,5 +179,18 @@ class ShoppingController extends Controller
     public function destroy(compra $compra)
     {
         //
+    }
+
+    public function estado(Request $request, compra $compra){
+
+        $compraa = compra::findOrFail($compra->id);
+        if($compraa->estado==0){
+            $compraa->estado='1';
+        }else{
+            $compraa->estado='0';
+        }
+        $compraa->save();
+
+        return redirect('/shopping');
     }
 }

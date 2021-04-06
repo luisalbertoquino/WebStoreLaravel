@@ -78,14 +78,14 @@
               <div class="form-group row">
                 <label for="categoria" class="col-md-4 col-form-label text-md-right">{{ __('Imagen Logo') }}</label>
                 <div class="col-md-14">
-                    <input id="logo" type="file" class="form-control" name="logo" value="{{ $config['logo'] }}" >
+                    <input id="logo" type="file" class="form-control" name="logo" accept="image/*" value="{{ $config['logo'] }}" >
                 </div>
             </div>
 
             <div class="form-group row">
               <label for="categoria" class="col-md-4 col-form-label text-md-right">{{ __('Imagen Nombre Logo') }}</label>
               <div class="col-md-14">
-                  <input id="nombreLogo" type="file" class="form-control" name="nombreLogo"  value="{{ $config['nombreLogo'] }}" >
+                  <input id="nombreLogo" type="file" class="form-control" name="nombreLogo" accept="image/*"  value="{{ $config['nombreLogo'] }}" >
               </div>
           </div>
                 <br>

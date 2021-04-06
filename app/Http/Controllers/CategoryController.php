@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\categoria;
 use App\producto;
-
 use Illuminate\Http\Request;
+use App\negocio;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class CategoryController extends Controller
 {
@@ -20,7 +21,6 @@ class CategoryController extends Controller
     }
     public function index()
     {   
-
 
         $categorias = categoria::get();
         
@@ -73,6 +73,15 @@ class CategoryController extends Controller
     {
         $productos = producto::get();
         return view('Products.showCategory' , ['categoria'=>$categoria,'productos'=>$productos]);
+    }
+
+    public function show2()
+    {   
+        $categorias = categoria::get();
+        $config= negocio::find(1);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteCategorias', ['categorias'=>$categorias,'config'=>$config]);
+        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        return $pdf->stream();
     }
  
     /**

@@ -161,7 +161,7 @@
                     <a class="dropdown-item" href="/user/{{ auth()->id() }}/edit">Opciones de cuenta</a>
                     @endif
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                    <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">Logout</a>
                 </div>
             </li>
         </ul> 
@@ -362,7 +362,7 @@
                     <span>about</span></a>
             </li>
         </ul>
-        <div id="content-wrapper" style="background-image: url({{ asset ('/storage/img/fondogeneral.png')}});background-position:center;"  >
+        <div id="content-wrapper" style="background-image: url({{ asset ('/storage/img/fondogeneral.png')}});background-position:center;background-repeat: no-repeat fixed;"  >
 
         <!--.................................................................-->
         @yield('content')
@@ -391,7 +391,7 @@
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
+                <div class="modal-footer ">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">Logout</a>
@@ -459,9 +459,14 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
-
+<!--pal datapiker-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="{{ asset('js/jquery.uitablefilter.js') }}"></script>
 
 <script src=" {{ asset('/js/jspdf.debug.js') }}"></script>
+<script type="text/javascript" src="/js/jspdf.plugin.autotable.min.js"></script>
 <script src=" {{ asset('/js/paginator.js') }}"></script>
  <!-- Sticky Footer -->
  <footer class="sticky-footer">

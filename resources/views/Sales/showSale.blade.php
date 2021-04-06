@@ -131,139 +131,129 @@
     </div>
     @endif
 
+    <?php
+            $fecha = date('Y-m-d');
+            $acum = 0;
+            $pinaculo=0;
+            foreach ($ventaFull as $ventaFull) {
+               $pinaculo=$ventaFull->numeroVenta;
+            }
+            if ($pinaculo ==0) {
+            $acum = $acum+1;
+            } else {
+            $acum = $venta->numeroVenta;
+            }
+            ?>
+
     <div class="card">
         <div class="container">
-            <div class="invoice-box">
+            <div class="invoice-box"> 
                 
                 <div class="table-responsive">
-                <table class="table" cellpadding="0" cellspacing="0">
-                    <tr class="top">
-                        <td colspan="2">
-                            <table>
-                                <tr>
-                                    <td class="title">
-                                        <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
-                                    </td>
+                    <table class="table" id="tablita" cellpadding="0" cellspacing="0" style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url({{ Storage::url($config->nombreLogo)}}); background-repeat: no-repeat;">
+                        
+                        <tr class="top">
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+                                        <td class="title">
+                                            <img  src="{{$config->logo}}" style="width:100px; max-width:300px;">
+                                        </td>
+                                
+                                        <td>
+                                            Factura de venta#  : {{$acum }}<br>
+                                            Fecha Atual: <?php echo date("Y-m-d");?><br>
+                                            Fecha Venta: <?php echo date("Y-m-d");?> 
+                                            trolling:
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <tr class="information">
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+                                        <!---datos empresa general-->
+                                        <td>
+                                            {{$config->nombreEmpresa}}<br>
+                                            Nit. {{$config->nit}}<br>
+                                            tel. {{$config->telefono}}
+                                        </td>
+                                        <!---datos contacto-->
+                                        <td>
+                                            {{$config->razonSocial}}<br>
+                                            Webside:{{$config->paginaWeb}}<br>
+                                            {{$config->email}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <tr class="heading">
+                            <td>
+                                Datos Cliente
+                            </td>
+    
+                            <td>
+                                Vendedor
+                            </td>
                             
-                                    <td>
-                                        Factura #  : {{$venta->numeroVenta}} <br>
-                                        Fecha Atual: <?php echo date("Y-m-d");?><br>
-                                        Fecha Venta: {{$venta->fechaEmision}}
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    
-                    <tr class="information">
-                        <td colspan="2">
-                            <table>
-                                <tr>
-                                    <!---datos empresa general-->
-                                    <td>
-                                        Sparksuite, Inc.<br>
-                                        12345 Sunny Road<br>
-                                        Sunnyville, CA 12345
-                                    </td>
-                                    <!---datos contacto-->
-                                    <td>
-                                        Acme Corp.<br>
-                                        John Doe<br>
-                                        john@example.com
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    
-                    <tr class="heading">
-                        <td>
-                            Datos Cliente
-                        </td>
-
-                        <td>
-                            Vendedor
-                        </td>
-                        
-                        
-                    </tr>
-                    
-                    <tr class="details">
-                        <td>
-                            Nombre: @if ($venta->cliente['estado']==1)
-                            {{$venta->cliente['nombre']}}
-                            @else
-                            Sin Registro
-                            @endif <br>
-
-
-                            Tipo Documento:@if ($venta->cliente['estado']==1)
-                            @foreach($documento as $documento)
-                            @if($venta->cliente['idDocumento']==$documento->id)
-                            {{$documento->tipoDocumento}}
-                            @endif
-                            @endforeach
-                            @else
-                            Sin Registro
-                            @endif <br>
-
-                            # Documento:@if ($venta->cliente['estado']==1)
-                            {{$venta->cliente['numeroDocumento']}}
-                            @else
-                            Sin Registro
-                            @endif <br>
-                        </td>
-                        
-                        <td>
-                            {{$venta->usuario['nombre']}}&nbsp{{$venta->usuario['apellido']}}
-
-                        </td>
-                    </tr>
-
-                    <tr class="heading">
-                        <td>
-                            Producto/Cantidad
-                        </td>
-                        <td>
-                            Total $$
-                        </td>
-                    </tr>
-                    
-                    @foreach ($ventaFull as $ventaFull)
-                    @if($venta->serialVenta==$ventaFull->serialVenta)
-                    <tr class="item">
-                        <td>
-                            @if ($ventaFull->product['estado']==1)
-                            {{$ventaFull->product['nombreProducto']}} (x{{$ventaFull['cantidadProducto']}})
-                            @else
-                            {{$ventaFull->product['nombreProducto']}} Descontinuado
-                            @endif 
-                        </td>
                             
-                        <td>
-                            <?php
-                      $acum = NULL;
-                      $acum= $ventaFull['cantidadProducto']*$ventaFull->product['valorVenta'];     
-                            ?>
-                            {{$acum}}.00 $$
-                        </td>
-                    </tr>
-                    @endif
-                    @endforeach
-                    
-                    
-                    <tr class="total">
-                        <td></td>
+                        </tr>
                         
-                        <td>
-                            SubTotal:{{$ventaFull['subtotal']}}.00 $$<br>
-                            Total Impuestos:{{$ventaFull['iva']}} <br>
-                            Descuentos Adicionales:.00 $$ <br>
-                           Total: {{$venta->total}}.00 $$
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                        <tr class="details">
+                            <td>
+                                <label id="clienter" type="text"></label><br>
+    
+    
+                                Tipo Documento:Cedula de ciudadania <br>
+    
+                                # Documento:1075389698<br>
+                            </td>
+                            
+                            <td>
+                                {{ auth()->user()->nombre }} {{ auth()->user()->apellido }}
+    
+                            </td> 
+                        </tr>
+    
+                        <tr class="heading">
+                            <td>
+                                Producto/Cantidad
+                            </td>
+                            <td>
+                                Total $$
+                            </td>
+                        </tr>
+                        
+                       
+                        <tr class="item">
+                            <td>
+                                Descontinuado
+                            </td>
+                                
+                            <td>
+                                20000.00 $$
+                            </td>
+                        </tr>
+
+                        
+                        
+                        <tr class="total">
+                            <td></td>
+                            
+                            <td>
+                                SubTotal:.00 $$<br>
+                                Total Impuestos: <br>
+                                Descuentos Adicionales:.00 $$ <br>
+                               Total:.00 $$
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             
         </div>
         

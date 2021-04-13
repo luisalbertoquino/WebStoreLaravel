@@ -26,70 +26,85 @@
               <a href="/product2" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
           </span>
         </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
-
-                <!--date range-->
-                <div class="row">
-                  <div class="col-md-5">Total Records - <b><span id="total_records"></span></b></div>
-                  <div class="col-md-5">
-                   <div class="input-group input-daterange">
-                       <input type="text" name="from_date" id="from_date" readonly class="form-control" />
-                       <div class="input-group-addon">&ensp;hasta&ensp;</div>
-                       <input type="text"  name="to_date" id="to_date" readonly class="form-control" />
-                   </div>
-                  </div>
-                  <div class="col-md-2">
-                   <button type="button" name="filter" id="filter" class="btn btn-info btn-sm">Filter</button>
-                   <button type="button" name="refresh" id="refresh" class="btn btn-warning btn-sm">Refresh</button>
-                  </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              
+              <!--date range-->
+              <div class="row">
+                <div class="col-md-3">Datos Almacenados - <b><span id="total_records"></span></b></div>
+                <div class="col-md-5">
+                 <div class="input-group input-daterange">
+                     <input type="text" name="from_date" id="from_date" readonly class="form-control" />
+                     <div class="input-group-addon">&ensp;hasta&ensp;</div>
+                     <input type="text"  name="to_date" id="to_date" readonly class="form-control" />
                  </div>
-                 <br>
+                </div>
+                <div class="col-md-2">
+                 <button type="button" name="filter" id="filter" class="btn btn-info btn-sm">Filter</button>
+                 <button type="button" name="refresh" id="refresh" class="btn btn-warning btn-sm">Refresh</button>
+                </div>
+                <div class="col-md-2">
+                  <select class="js-example-basic-single form-control "  data-live-search="true" >
+                    <option value="" disabled selected>Buscar por Cliente</option>
+                    @foreach ($cliente as $cliente)
+                        @if ($cliente->estado==1){
+                        <option onclick="asignarCliente('{{$cliente['nombre']}}'.{{$cliente->numeroDocumento}})" value={{$cliente->id}} >{{$cliente->numeroDocumento}}-{{$cliente->nombre}}</option>
+                         }
+                       @endif
+                    @endforeach
+                </div>
+               </div>
+               
+              <thead class="thead-dark">
+                <br>
+                <tr>
+                  <th>venta N°</th>
+                  <th>Serial Venta</th>
+                  <th>Vendedor</th>
+                  <th>Producto</th>
+                  <th>Cantidad Producto</th>
+                  <th>Subtotal</th>
+                  <th>Iva</th>
+                  <th>Total</th>
+                  <th>Cliente</th>
+                  <th>Fecha Venta</th>
+              
+                </tr>
+              </thead>
 
-          <!--continuacion de la tabla-->
-                <thead class="thead-dark">
-                  <tr>
-                    <th>id</th>
-                    <th>Producto</th>
-                    <th>Descripcion</th>
-                    <th>Stock</th>
-                    <th>Costo</th>
-                    <th>% Ganancia</th>
-                    <th>valor de venta</th>
-                    <th>categoria</th>
-                
-                  </tr>
-                </thead>
-
-                <tbody>
-                  @foreach ($productos as $productos)
-                  <tr>
-                    <td>{{$productos->id}}</td>
-                    <td>{{$productos->nombreProducto}}</td>
-                    <td>{{$productos->detalleProducto}}</td>
-                    <td>{{$productos->stock}}</td>
-                    <td>{{$productos->costo}}</td>
-                    <td>{{$productos->porcentajeGanancia}}</td>
-                    <td>{{$productos->valorVenta}}</td>
-                    <td>
-                      @if ($productos->category['estado']==1)
-                      {{$productos->category['categoria']}}
-                      @else
-                      No hay categoria disponible
-                      @endif
-                      </td>
-                  </tr>
-                  @endforeach
-                
-                </tbody>
-              </table>
-              {{ csrf_field()}}
-              <span style="float:right">
-                <button onclick="generarReporte()" class="btn btn-primary mt-4" id="btnObtenerValores">Generar reporte&ensp;&ensp;<i
-                    class="fa fa-file-pdf-o" aria-hidden="true"></i></button></span>
-            </div>
-            </div>
+              <tbody>
+                @foreach ($venta as $venta)
+                <tr>
+                  <td style="width:30px;">{{$venta->numeroVenta}}</td>
+                  <td>{{$venta->serialVenta}}</td>
+                  <td>{{$venta->usuario['nombre']}}&nbsp{{$venta->usuario['apellido']}}</td>
+                  <td>
+                    @if ($venta->product['estado']==1)
+                    {{$venta->product['nombreProducto']}}
+                    @else
+                    Producto agotado o no dispo
+                    @endif
+                  </td>
+                  <td style="width:90px;">{{$venta->cantidadProducto}}</td>
+                  <td>{{$venta->subtotal}}</td>
+                  <td>{{$venta->iva}}</td>
+                  <td>{{$venta->total}}</td>
+                  <td>
+                      @if ($venta->cliente['estado']==1)
+                    {{$venta->cliente['numeroDocumento']}}-{{$venta->cliente['nombre']}}
+                    @else
+                    No exist
+                    @endif
+                  </td> 
+                  <td>{{$venta->fechaEmision}}</td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+            {{ csrf_field()}}
+          </div>
+        </div>
           </div>
           <div class="card-footer small text-muted" style="text-align: center">Updated <input type="datetime" style="text-align: center" name="fecha"  readonly="true" value="<?php echo date("Y-m-d\TH-i");?>"></div>
         </div>

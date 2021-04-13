@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\negocio;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +16,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
+    } 
 
     /**
      * Show the application dashboard.
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $config= negocio::find(1);
+        return view('home',['config'=>$config]);
     }
 }

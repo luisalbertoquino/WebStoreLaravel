@@ -14,7 +14,7 @@
           <form method="get" action="/category/create" style="margin-left: auto;">
             @if(Auth::user()->permissions->contains('slug', 'createcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
               <button type="submit" class="btn btn-primary" >
-                  {{ __('Nueva Categoria') }}&nbsp&nbsp<i class="fa fa-plus" aria-hidden="true"></i>
+                  {{ __('Nueva Categoria') }}&nbsp&nbsp<i class="fas fa-cart-plus"></i>
               </button>
             @endif
           </form>
@@ -23,28 +23,29 @@
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
-            <i class="fa fa-th-large" style="color: #0860b8  ;" aria-hidden="true"></i>&nbsp&nbsp
+            <i class="fas fa-boxes"></i>&nbsp&nbsp
             CATEGORIAS REGISTRADAS
-            <span style="float: left">
-              <a href="/category2" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+            <span style="float: right">
+              <a href="/category2" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
           </span>
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead class="thead-dark">
                   <tr>
                     <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Categoria</th>
                     <th style="text-align: center;">Descripcion</th>
-                    @if(Auth::user()->permissions->contains('slug', 'downcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <th style="text-align: center;">Estado</th>
-                    @endif
+                    
                     @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Ver</th>
                     @endif
                     @if(Auth::user()->permissions->contains('slug', 'updatecategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Edit</th>
+                    @endif
+                    @if(Auth::user()->permissions->contains('slug', 'downcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <th style="text-align: center;">Estado</th>
                     @endif
                     @if(Auth::user()->roles->first()->nombre=='Administrador Main')
                     <th style="text-align: center;">Delete</th>
@@ -58,6 +59,23 @@
                     <td style="width:80px;">{{$categorias->categoria}}</td>
                     <td style="width:200px;">{{$categorias->descripcion}}</td>
 
+                    
+
+                    <!--ver-->
+                    @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:70px; text-align:center">
+                      <a class="btn btn-warning" style="color:#ffff"  href="/category/{{$categorias->id}}"><i class="fas fa-eye"></i></a>
+                    </td>
+                    @endif 
+
+ 
+                    <!--editar-->
+                    @if(Auth::user()->permissions->contains('slug', 'updatecategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
+                    <td style="width:70px; text-align:center">
+                      <a class="btn btn-primary" href="/category/{{$categorias->id}}/edit"><i class="fas fa-edit"></i></a>
+                    </td>
+                    @endif
+ 
                     <!--cambiar estado-->
                     @if(Auth::user()->permissions->contains('slug', 'downcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <td  style="width:70px; text-align:center">
@@ -65,33 +83,22 @@
                       @method('PATCH')
                       {{csrf_field()}}
                       @if ($categorias->estado==0)
-                      <button class="btn btn-danger" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        @if(Auth::user()->roles->first()->nombre=='Administrador Main')
+                        <button class="btn btn-danger" type="submit" ><i class="fas fa-minus-circle"></i></button>
+                          @else
+                          <button class="btn btn-danger" disabled type="submit" ><i class="fas fa-minus-circle"></i></button>
+                          @endif
                       @else
-                      <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                      <button class="btn btn-success" type="submit" ><i class="fas fa-minus-circle"></i></button>
                       @endif
                     </form>
-                    </td>
-                    @endif
-
-                    <!--ver-->
-                    @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <td style="width:70px; text-align:center">
-                      <a class="btn btn-warning" href="/category/{{$categorias->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    </td>
-                    @endif 
-
-
-                    <!--editar-->
-                    @if(Auth::user()->permissions->contains('slug', 'updatecategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <td style="width:70px; text-align:center">
-                      <a class="btn btn-primary" href="/category/{{$categorias->id}}/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     </td>
                     @endif
 
                     <!--eliminar-->
                     @if(Auth::user()->roles->first()->nombre=='Administrador Main')
                     <td style="width:70px; text-align:center">
-                      <a class="btn btn-danger" href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal" data-postid="{{$categorias->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                      <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal" data-postid="{{$categorias->id}}"><i class="fas fa-trash-alt"></i></a>
                     </td>
                     @endif
                   </tr>
@@ -106,7 +113,7 @@
 
       </div>
       <!-- /.container-fluid -->
-
+ 
 
     </div>
     <!-- /.content-wrapper -->
@@ -117,19 +124,19 @@
       <div class="modal-content">
           <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Are you shure you want to delete this?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close" href="javascript:void(0)">
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close" href="#">
               <span aria-hidden="true">×</span>
           </button>
           </div>
           <div class="modal-body">Select "delete" If you realy want to delete this category.</div>
           <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal" href="javascript:void(0)">Cancel</button>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" href="#">Cancel</button>
           @if ($categorias->id=!false)
           <form method="POST" action="/category/{{$categorias->id}}">
             @method('DELETE')
                 @csrf
                 <input type="hidden" id="post_id" name="post_id" value="">
-                <a class="btn btn-primary" onclick="$(this).closest('form').submit();" href="javascript:void(0)">Delete</a>
+                <a class="btn btn-primary" onclick="$(this).closest('form').submit();" href="#">Delete</a>
             </form>
           @endif
           

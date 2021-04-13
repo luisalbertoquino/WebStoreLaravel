@@ -51,10 +51,10 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'nombreProducto'=>'required',
-            'detalleProducto'=>'required',
-            'stock'=>'required',
-            'costo'=>'required',
+            'nombreProducto'=>'required|max:20',
+            'detalleProducto'=>'required|max:150',
+            'stock'=>'required|max:10',
+            'costo'=>'required|max:10',
             'porcentajeGanancia'=>'required',
             'valorVenta'=>'required',
             'idCategoria'=>'required',
@@ -132,13 +132,13 @@ class ProductController extends Controller
             dd('el usuairo no es admin');
         }*/
         $data = request()->validate([
-            'nombreProducto'=>'required',
-            'detalleProducto'=>'required',
-            'stock'=>'required',
-            'costo'=>'required',
+            'nombreProducto'=>'required|max:20',
+            'detalleProducto'=>'required|max:150',
+            'stock'=>'required|max:10',
+            'costo'=>'required|max:10',
             'porcentajeGanancia'=>'required',
-            'valorVenta'=>'required',
-            'idCategoria'=>'required',
+            'valorVenta'=>'required|max:10',
+            'idCategoria'=>'required|max:10',
             'estado'=>'required'
         ]);
  

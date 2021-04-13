@@ -23,7 +23,7 @@
  
         <!-- DataTables Example -->
         <div class="card mb-3"> 
-          <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: bold;">
+          <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
             <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
             REGISTRO DE ROLES
             <span style="float: left">
@@ -127,7 +127,7 @@
             modal.find('.modal-footer #post_id').val(post_id);
             modal.find('form').attr('action','/roles/'+post_id);
         })
-    </script>
+    </script> 
 
 <script>
     $(document).ready(function() {

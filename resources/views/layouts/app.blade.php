@@ -2,21 +2,25 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <link rel="shortcut icon" href="img/favico.ico" />
+    
 
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Luis Quino">
+    <meta name="author" content="Project Invoice">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <!--para el icono de la pestaña-->
+    <link rel="icon" href="/storage/img/ico2.ico" type="image/x-icon"/>
 
     <!-- Custom fonts for this template-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Page level plugin CSS-->
@@ -169,22 +173,21 @@
     </nav>
 
 
-    <div id="wrapper" style="position: sticky">
+    <div id="wrapper" style="background-image: url({{ asset ('/storage/img/fondogeneral.png')}});background-position:center;background-repeat: no-repeat;background-attachment: fixed;width: 100%;background-size: 100%;" >
 
         <!-- Sidebar -->
         <ul class="sidebar navbar-nav"> 
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
-                    <span style="color: #fff;"><h5>{{ auth()->user()->nombre }} {{ auth()->user()->apellido }}</h5></span>
+            <li class="nav-item" style="text-align: center">
+                <a class="nav-link" href="javascript:void(0)" >
+                    <span style="text-align: left;color: #fff;"><h5>{{ auth()->user()->nombre }} {{ auth()->user()->apellido }}</h5></span>
                     @auth
-                    <span style="color: #fff;" > Rol: {{ Auth::user()->roles->isNotEmpty() ? Auth::user()->roles->first()->nombre : "" }}</span>
+                    <span style="text-align: left;color: #fff;" > Rol: {{ Auth::user()->roles->isNotEmpty() ? Auth::user()->roles->first()->nombre : "" }}</span>
                    
                     @endauth
                     <br><br>
-                    <img src="/storage/img/perfil.jpg" class="mobile_profile_image circle"  style="height:auto;max-width: 70%;border-radius:150px;border:1px solid #666;background:#ffff" alt="">
+                    <img src="/storage/img/perfil.jpg" class="mobile_profile_image circle"  style="height:auto;max-width: 70%;border-radius:150px;border:1px solid #666;background:#ffff;text-align:center;" alt="">
                 </a> 
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" href="/home">
                     <i class="fa fa-home" aria-hidden="true"></i>&nbsp
@@ -200,13 +203,15 @@
                 <a class="nav-link dropdown-toggle" href="/product" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-archive" aria-hidden="true"></i>&nbsp
-                    <span>Productos</span>
+                    <span>Productos<span class="badge badge-danger">
+                        Stock
+                      </span></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                     <a class="dropdown-item" href="/category">Manage Category</a>
                    <a class="dropdown-item" href="/category/create">New Category</a>
-                    @endif
+                    @endif 
                     <div class="dropdown-divider"></div>
                     
                    <a class="dropdown-item" href="/product">Product Management</a>
@@ -346,13 +351,12 @@
                     <a class="dropdown-item" href="/document">Supported Documents</a>
                     @endif
                     @if(Auth::user()->permissions->contains('slug', 'operationalvariables')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <a class="dropdown-item" href="/Bussiness2">Business Customization</a>
+                    <a class="dropdown-item" href="/Bussiness2">Business Custom</a>
                     @endif
                 </div>
                 <div class="dropdown-divider"></div>
             </li>
             @endif
-
 
 
 
@@ -363,7 +367,7 @@
                     <span>about</span></a>
             </li>
         </ul>
-        <div id="content-wrapper" style="background-image: url({{ asset ('/storage/img/fondogeneral.png')}});background-position:center;background-repeat: no-repeat fixed;"  >
+        <div id="content-wrapper" class="d-flex flex-column">
 
         <!--.................................................................-->
         @yield('content')
@@ -469,14 +473,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
 
-<script src=" {{ asset('/js/jspdf.debug.js') }}"></script>
-<script type="text/javascript" src="/js/jspdf.plugin.autotable.min.js"></script>
+<!--para pdf por default-->
+<script src="https://unpkg.com/jspdf-invoice-template@1.2.0/dist/index.js"></script>
+
 <script src=" {{ asset('/js/paginator.js') }}"></script>
  <!-- Sticky Footer -->
  <footer class="sticky-footer">
   <div class="container my-auto">
     <div class="copyright text-center my-auto">
-      <span>Copyright SoftwareFJ 2021</span>
+      <span>Copyright SoftwareFJ {{ date('Y') }}</span>
     </div>
   </div>
 </footer>

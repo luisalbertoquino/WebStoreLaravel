@@ -22,7 +22,6 @@ mix.js('resources/js/app.js', 'public/js')
    .js('resources/js/select2.full.min.js', 'public/js')
    .js('resources/js/select2.js', 'public/js')
    .js('resources/js/select2.min.js', 'public/js')
-   .js('resources/js/jspdf.debug.js', 'public/js')
    .js('resources/js/paginator.js', 'public/js')
    .js('resources/js/bootstrap-tagsinput.js', 'public/js')
    .sass('resources/sass/sb-admin.scss', 'public/css');

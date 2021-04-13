@@ -102,7 +102,7 @@
                      <a class="btn btn-danger" href="javascript:void(0)" id="download"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                    </td>
                    @endif
-
+ 
                    <!--anular-->
                    @if(Auth::user()->permissions->contains('slug', 'updatepurchase')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                    <td style="text-align: center;width:30px">

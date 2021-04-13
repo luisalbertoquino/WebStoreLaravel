@@ -47,7 +47,7 @@ class CategoryController extends Controller
     {
         $data = request()->validate([
             'categoria'=>'required|max:20',
-            'descripcion'=>'required',
+            'descripcion'=>'required|max:150',
             'estado'=>'required'
         ]);
 
@@ -79,8 +79,11 @@ class CategoryController extends Controller
     {   
         $categorias = categoria::get();
         $config= negocio::find(1);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteCategorias', ['categorias'=>$categorias,'config'=>$config]);
-        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        $image = base64_encode(file_get_contents(public_path($config->logo)));
+        $image2 = base64_encode(file_get_contents(public_path($config->nombreLogo)));
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteCategorias', ['categorias'=>$categorias,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+        //$pdf = PDF::loadView('Pdf.reporteCategorias', ['categorias'=>$categorias,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+        //return view('Pdf.reporteCategorias', ['categorias'=>$categorias,'config'=>$config,'image'=>$image,'image2'=>$image2]);
         return $pdf->stream();
     }
  
@@ -111,8 +114,8 @@ class CategoryController extends Controller
 
         $this->authorize('UpdateCategory',$categoria);
         $data = request()->validate([
-            'categoria'=>'required|max:20',
-            'descripcion'=>'required',
+            'categoria'=>'required|max:30',
+            'descripcion'=>'required|max:150',
             'estado'=>'required'
         ]);
         $category = categoria::findOrFail($categoria->id);

@@ -73,7 +73,6 @@ class UserController extends Controller
             'email'=>'required',
             'telefono'=>'required',
             'direccion'=>'required',
-            'usuario'=>'required',
             'password'=>'required',
             'estado'=>'required'
         ]);
@@ -88,8 +87,7 @@ class UserController extends Controller
         $usuario->email=request('email');
         $usuario->telefono=request('telefono');
         $usuario->direccion=request('direccion');
-        $usuario->usuario=request('usuario');
-        $usuario->password=$request->password;
+        $usuario->password=bcrypt($request->password);
         $usuario->estado=request('estado');
         $usuario->save();
 
@@ -170,7 +168,6 @@ class UserController extends Controller
             'email'=>'required',
             'telefono'=>'required',
             'direccion'=>'required',
-            'usuario'=>'required',
             'password'=>'required',
             'estado'=>'required',
             'password'=> 'required'
@@ -186,7 +183,6 @@ class UserController extends Controller
         $usuario->email=request('email');
         $usuario->telefono=request('telefono');
         $usuario->direccion=request('direccion');
-        $usuario->usuario=request('usuario');
         $usuario->password=bcrypt($request->password);
         $usuario->estado=request('estado');
         $usuario->save();

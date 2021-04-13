@@ -20,7 +20,7 @@
 
         <div class="card card-login mx-auto mt-1" style="border:1px solid #666"> 
             <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: italic;">AÑADIR NUEVO PRODUCTO&nbsp&nbsp
-                <i class="fa fa-archive" style="color: #964B00;" aria-hidden="true"></i>
+                <i class="fas fa-people-carry"></i>
             </div>
         <div class="card-body"> 
 
@@ -33,62 +33,63 @@
                     @endforeach
                 </ul> 
             </div>
-            @endif
+            @endif 
     
             <form method="POST" action="/product">
                 @csrf
                 <!--nombre producto-->
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Nombre Producto') }}</label>
+                    <label for="nombreProducto" class="col-md-4 col-form-label text-md-right">{{ __('Nombre Producto') }}</label>
                     <div class="col-md-8">
-                        <input id="nombreProducto" type="text" class="form-control" name="nombreProducto"  autofocus="true">
+                        <input id="nombreProducto" type="text" class="form-control  @error('nombreProducto') is-invalid @enderror" name="nombreProducto"  value="{{ old('nombreProducto') }}" @if ($errors->has('nombreProducto')) autofocus @endif>
                     </div>
                 </div>
                 <!--descripcion producto-->
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Descripcion') }}</label>
+                    <label for="detalleProducto" class="col-md-4 col-form-label text-md-right">{{ __('Descripcion') }}</label>
                     <div class="col-md-8">
-                        <textarea name="detalleProducto" class="form-control" id="detalleProducto" cols="50" rows="3"></textarea>
+                        <textarea name="detalleProducto" class="form-control @error('detalleProducto') is-invalid @enderror" id="detalleProducto" cols="50" rows="3" @if ($errors->has('detalleProducto')) autofocus @endif>{{ old('detalleProducto')}}</textarea>
                     </div>
                     <br>
                 </div>
                 <!--stock producto-->
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Stock') }}</label>
+                    <label for="stock" class="col-md-4 col-form-label text-md-right">{{ __('Stock') }}</label>
                     <div class="col-md-8">
-                        <input id="stock" type="number" class="form-control" name="stock" min="0">
+                        <input id="stock" type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" min="0" value="{{ old('stock') }}" @if ($errors->has('stock')) autofocus @endif>
                     </div>
                 </div>
                 
                 <!--costo producto-->
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Costo $') }}</label>
+                    <label for="costo" class="col-md-4 col-form-label text-md-right">{{ __('Costo $') }}</label>
                     <div class="col-md-8">
-                        <input id="costo" type="number" class="form-control" name="costo" min="0" step = "any" >
+                        <input id="costo" type="number" class="form-control @error('costo') is-invalid @enderror" name="costo" min="0" step = "any" oninput="alerta()" value="{{ old('costo') }}" @if ($errors->has('costo')) autofocus @endif>
                     </div>
                 </div>
                 
                 <!--ganancia % producto-->
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Ganancia %') }}</label>
+                    <label for="porcentajeGanancia" class="col-md-4 col-form-label text-md-right">{{ __('Ganancia %') }}</label>
                     <div class="col-md-8">
-                        <input id="porcentajeGanancia" type="text" readonly class="form-control" name="porcentajeGanancia" required>
+                        <input id="porcentajeGanancia" type="text" readonly class="form-control @error('porcentajeGanancia') is-invalid @enderror" name="porcentajeGanancia" required value="{{ old('porcentajeGanancia') }}">
                     </div>
                 </div>
                 
                 <!--ganancia producto-->
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Valor Venta $') }}</label>
+                    <label for="valorVenta" class="col-md-4 col-form-label text-md-right">{{ __('Valor Venta $') }}</label>
                     <div class="col-md-8">
-                        <input id="valorVenta" type="number" class="form-control" name="valorVenta" min="0" step = "any" oninput="alerta()" >
+                        <input id="valorVenta" type="number" class="form-control @error('valorVenta') is-invalid @enderror" name="valorVenta" min="0" step = "any" oninput="alerta()" value="{{ old('valorVenta') }}" @if ($errors->has('valorVenta')) autofocus @endif >
                     </div>
                 </div>
                 
                 <!--categoria-->
                 <div class="form-group row">
-                    <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Categoria') }}</label>
+                    <label for="idCategoria" class="col-md-4 col-form-label text-md-right">{{ __('Categoria') }}</label>
                     <div class="col-md-8">
-                        <select name="idCategoria" id="idCategoria" class="form-control">
+                        <select name="idCategoria" id="idCategoria" class="form-control @error('idCategoria') is-invalid @enderror" @if ($errors->has('idCategoria')) autofocus @endif>
+                            <option value="" selected disabled hidden>Choose here</option>
                             @foreach ($categorias as $categorias)
                             @if ($categorias->estado==1){
                             <option value={{$categorias->id}}>{{$categorias->categoria}}</option>
@@ -101,10 +102,11 @@
                 
                 <!--estado producto-->
                 <div class="form-group row">
-                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Seleccione Estado') }}</label>
+                    <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Seleccione Estado') }}</label>
                     <div class="col-md-8">
                         <div class="form-group">
-                            <select name="estado" id="estado" class="form-control">
+                            <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" @if ($errors->has('estado')) autofocus @endif>
+                                <option value="" selected disabled hidden>Choose here</option>
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
@@ -115,10 +117,10 @@
                 <div class="form-group row mb-0">
                     <div class="col-md-12 offset-md-3">
                         <br>
-                        <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>
-                        <button type="submit" class="btn btn-primary" style="align-content: center;text-lign:center">
-                            {{ __('Registrar') }}&nbsp&nbsp<i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                        </button>
+                        <a href="/product" class="btn btn-danger">Regresar</a>
+                        <button type="submit" class="btn btn-success" style="align-content: center;text-lign:center">
+                            {{ __('Registrar') }}
+                        </button> 
                     </div>
                 </div>
             </form>
@@ -138,10 +140,15 @@
                 precioFinal=document.getElementById("valorVenta").value;
                 diferencia=precioFinal-precioInicial;
                 total=((precioFinal/precioInicial)*100)-100;
-                document.getElementById("porcentajeGanancia").setAttribute('value',total+' % ( $'+diferencia+'.00)')
+                if(precioInicial==0  ){
+                    document.getElementById("porcentajeGanancia").setAttribute('value','');
+                }else if(precioFinal==0){
+                    document.getElementById("porcentajeGanancia").setAttribute('value','');
+                }else{
+                    document.getElementById("porcentajeGanancia").setAttribute('value',total+' % ( $'+diferencia+'.00)');
+                }
+                
             }
-
-            
         </script>
       
       @endsection

@@ -19,10 +19,10 @@
           @endif
             </form>
         </ol>
-
+        
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: bold;">
+          <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
             <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
             REGISTRO DE VENTAS
             <span style="float: left">
@@ -69,9 +69,9 @@
                     <td style="width:20px;">{{$venta->numeroVenta}}</td>
                     <td style="width:80px;">{{$venta->serialVenta}}</td>
                     <td style="width:80px;">{{$venta->usuario['nombre']}}&nbsp{{$venta->usuario['apellido']}}</td>
-                    <td style="width:50px;">{{$venta->subtotal}}.00$</td>
-                    <td style="width:50px;">{{$venta->ivaAcum}}.00$</td>
-                    <td style="width:50px;">{{$venta->total}}.00$</td>
+                    <td style="width:50px;">${{$venta->subtotal}}.00</td>
+                    <td style="width:50px;">${{$venta->ivaAcum}}.00</td>
+                    <td style="width:50px;">${{$venta->total}}.00</td>
                     <td style="width:80px;">
                       @if ($venta->cliente['estado']==1)
                       {{$venta->cliente['numeroDocumento']}}-{{$venta->cliente['nombre']}}

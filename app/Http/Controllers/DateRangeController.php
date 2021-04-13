@@ -18,13 +18,13 @@ class DateRangeController extends Controller
      {
       if($request->from_date != '' && $request->to_date != '')
       {
-       $data = DB::table('post')
-         ->whereBetween('date', array($request->from_date, $request->to_date))
+       $data = DB::table('sale')
+         ->whereBetween('fechaEmision', array($request->from_date, $request->to_date))
          ->get();
       }
       else
       {
-       $data = DB::table('post')->orderBy('date', 'desc')->get();
+       $data = DB::table('post')->orderBy('fechaEmision', 'desc')->get();
       }
       echo json_encode($data);
      }

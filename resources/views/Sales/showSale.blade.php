@@ -150,7 +150,7 @@
             <div class="invoice-box"> 
                 
                 <div class="table-responsive">
-                    <table class="table" id="tablita" cellpadding="0" cellspacing="0" style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url({{ Storage::url($config->nombreLogo)}}); background-repeat: no-repeat;">
+                    <table class="table" id="tablita" cellpadding="0" cellspacing="0" style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url({{{$config->nombreLogo}}}); background-repeat: no-repeat;">
                         
                         <tr class="top">
                             <td colspan="2">

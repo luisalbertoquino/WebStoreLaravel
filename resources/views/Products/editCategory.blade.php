@@ -37,14 +37,14 @@
                 <div class="form-group row">
                     <label for="categoria" class="col-md-4 col-form-label text-md-right">{{ __('Nombre Categoria') }}</label>
                     <div class="col-md-6">
-                        <input id="categoria" type="categoria" class="form-control" name="categoria" value="{{ $categoria['categoria'] }}" >
+                        <input id="categoria" type="categoria" class="form-control @error('categoria') is-invalid @enderror" name="categoria" value="{{ $categoria['categoria'] }}" @if ($errors->has('categoria')) autofocus @endif>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('Descripcion Categoria') }}</label>
                     <div class="col-md-6">
-                        <textarea  id="descripcion"  type="descripcion" class="form-control" name="descripcion"  cols="18" rows="3">{{ $categoria['descripcion'] }}</textarea>
+                        <textarea  id="descripcion"  type="descripcion" class="form-control @error('descripcion') is-invalid @enderror" name="descripcion"  cols="18" rows="3" @if ($errors->has('descripcion')) autofocus @endif>{{ $categoria['descripcion'] }}</textarea>
                     </div>
                 </div>
     
@@ -52,13 +52,18 @@
     
                 <div class="form-group row">
                     <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Seleccione Estado') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-6"> 
                 
                         <div class="form-group">
                             <input type="text" id="estado1" hidden name="estado1"  value="{{$categoria->estado}}">
-                            <select name="estado" id="estado" class="form-control">
-                                <option value="1">Activo</option>
+                            <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" @if ($errors->has('estado')) autofocus @endif>
+                                @if($categoria->estado==0)
+                                <option  value="1">Activo</option>
+                                <option selected value="0">Inactivo</option>
+                                @else
+                                <option selected value="1">Activo</option>
                                 <option value="0">Inactivo</option>
+                                @endif
                             </select>
                         </div>
                 </div>
@@ -69,8 +74,8 @@
                     <br>
                     <br>
                     <div class="col-md-12 offset-md-2">
-                        <a href="{{url()->previous()}}" class="btn btn-danger">Regresar</a>&nbsp&nbsp&nbsp
-                        <button type="submit" class="btn btn-primary">
+                        <a href="/category" class="btn btn-danger">Regresar</a>&nbsp&nbsp&nbsp
+                        <button type="submit" class="btn btn-success">
                             {{ __('Editar categoria') }}&nbsp&nbsp<i class="fa fa-pencil" aria-hidden="true"></i>
                         </button>
                     </div>

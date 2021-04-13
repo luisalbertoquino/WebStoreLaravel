@@ -16,7 +16,7 @@
           <li class="breadcrumb-item active">Mostrar Usuario</li>
         </ol>
         <div class="card card-login mx-auto mt-2" style="border:1px solid #666"> 
-            <div class="card-header" style="text-align: center">USER DATA&nbsp&nbsp<i class="fa fa-book" aria-hidden="true"></i></div>
+            <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: italic;">USER DATA&nbsp&nbsp<i class="fa fa-address-book" aria-hidden="true"></i></div>
         <div class="card-body">
 
             <!--mensajes de error-->
@@ -49,8 +49,6 @@
                 <p style="text-align: right">{{ $user['telefono'] }}</p>
                 <h6>Direccion Residencia:</h6>
                 <p style="text-align: right">{{ $user['direccion'] }}</p>
-                <h6>Nombre de Usuario:</h6>
-                <p style="text-align: right">{{ $user['usuario'] }}</p>
                 <h6>Estado en el sistema:</h6>
                 @if($user->estado==1)
                     <p style="text-align: right">Activo</p>

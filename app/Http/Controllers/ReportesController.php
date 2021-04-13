@@ -21,10 +21,13 @@ class ReportesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+
         $productos = producto::get();
         $categoria = categoria::get();
-        return view('reports.reportProductMore',['productos'=>$productos,'categoria'=>$categoria]);
+        $venta = venta::get();
+        $cliente = cliente::get();
+        return view('reports.reportProductMore',['productos'=>$productos,'categoria'=>$categoria,'venta'=>$venta,'cliente'=>$cliente]);
     }
 
     public function index2()
@@ -37,10 +40,31 @@ class ReportesController extends Controller
     }
 
     public function index3()
-    {
+    {   
+        $venta = venta::get();
         $productos = producto::get();
         $categoria = categoria::get();
-        return view('reports.reportProductLess',['productos'=>$productos,'categoria'=>$categoria]);
+        $cliente = cliente::get();
+        return view('reports.reportProductLess',['productos'=>$productos,'categoria'=>$categoria,'venta'=>$venta,'cliente'=>$cliente]);
+    }
+
+
+    function fetch_data(Request $request)
+    {
+     if($request->ajax())
+     {
+      if($request->from_date != '' && $request->to_date != '')
+      {
+       $data = DB::table('sale')
+         ->whereBetween('date', array($request->from_date, $request->to_date))
+         ->get();
+      }
+      else
+      {
+       $data = DB::table('post')->orderBy('date', 'desc')->get();
+      }
+      echo json_encode($data);
+     }
     }
 
     /**
@@ -61,7 +85,7 @@ class ReportesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 
     }
 
     /**

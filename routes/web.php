@@ -126,7 +126,8 @@ Route::delete('/provider/{proveedor}', 'ProviderController@destroy')->middleware
  //reportes
 Route::get('/Reportes', 'ReportesController@index')->middleware('permiso:viewreports,administrador-main'); 
 Route::get('/Reportess', 'ReportesController@index2')->middleware('permiso:viewreports,administrador-main');
-Route::get('/Reportesss', 'ReportesController@index3')->middleware('permiso:viewreports,administrador-main');                 
+Route::get('/Reportesss', 'ReportesController@index3')->middleware('permiso:viewreports,administrador-main');
+//prueba datapick                
 Route::get('/Reportes/create', 'ReportesController@create')->middleware('permiso:createreports,administrador-main'); 
 Route::get('/Reportes/{proveedor}', 'ReportesController@show')->middleware('permiso:viewreports,administrador-main'); 
 Route::post('/Reportes', 'ReportesController@store')->middleware('permiso:updatereports,administrador-main'); 
@@ -180,8 +181,7 @@ Route::get('/media/{img}', function ($img) {
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
      return "Cache is cleared";
-     });
+     }); 
 
-//prueba datapicker
 Route::get('/daterange', 'DateRangeController@index');
 Route::post('/daterange/fetch_data', 'DateRangeController@fetch_data')->name('daterange.fetch_data');

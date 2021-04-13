@@ -226,7 +226,7 @@
                 <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">Lista de compras &nbsp&nbsp<i class="fa fa-list" aria-hidden="true"></i> </div>
 
                 <div class="card-body">
-
+ 
                     <!--subtotal-->
                 <div class="form-group row">
                     <label for="descripcion" class="col-md-5 col-form-label text-md-right">{{ __('Subtotal') }}</label>
@@ -271,7 +271,7 @@
                         
                     </div>
                     
-                    <div class="form-group" id="factura" style="align-content: center">
+                    <div class="form-group" id="factura" style="align-content: center" hidden>
                         <label for="">prueba</label>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                 }else{
                     document.getElementById("costa"+idef).setAttribute("value", compara);
                 }
-
+ 
             }
 
             function funcion(productos, costos, cantidades, idd,impuestoIva,impuestoOtro) {

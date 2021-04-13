@@ -22,7 +22,7 @@
 
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header" style="text-align: center;font-size:20px; color:#34495E ;font-weight: bold;">
+          <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
             <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
             USUARIOS REGISTRADOS
             <span style="float: left">

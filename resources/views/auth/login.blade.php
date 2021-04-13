@@ -10,7 +10,8 @@
   <meta name="author" content="">
 
   <title>StoreSystem FJ- Login</title>
-
+<!--para el icono de la pestaña-->
+<link rel="icon" href="/storage/img/ico2.ico" type="image/x-icon"/>
   <!-- Custom fonts for this template-->
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 

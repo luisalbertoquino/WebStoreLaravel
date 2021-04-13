@@ -59,8 +59,6 @@
                     <th>venta N°</th>
                     <th>Serial Venta</th>
                     <th>Vendedor</th>
-                    <th>Producto</th>
-                    <th>Cantidad Producto</th>
                     <th>Subtotal</th>
                     <th>Iva</th>
                     <th>Total</th>
@@ -71,22 +69,18 @@
                 </thead>
 
                 <tbody>
+                  @php
+                      $acum= null;
+                  @endphp
                   @foreach ($venta as $venta)
+                  @if($acum != $venta->serialVenta)
                   <tr>
                     <td style="width:30px;">{{$venta->numeroVenta}}</td>
                     <td>{{$venta->serialVenta}}</td>
-                    <td>{{$venta->idUsuario}}</td>
-                    <td>
-                      @if ($venta->product['estado']==1)
-                      {{$venta->product['nombreProducto']}}
-                      @else
-                      Producto agotado o no dispo
-                      @endif
-                    </td>
-                    <td style="width:90px;">{{$venta->cantidadProducto}}</td>
-                    <td>{{$venta->subtotal}}</td>
-                    <td>{{$venta->iva}}</td>
-                    <td>{{$venta->total}}</td>
+                    <td>{{$venta->usuario['nombre']}}&nbsp{{$venta->usuario['apellido']}}</td>
+                    <td>{{$venta->subtotal}}.00$</td>
+                    <td>{{$venta->iva}}.00$</td>
+                    <td>{{$venta->total}}.00$</td>
                     <td>
                         @if ($venta->cliente['estado']==1)
                       {{$venta->cliente['numeroDocumento']}}-{{$venta->cliente['nombre']}}
@@ -96,9 +90,14 @@
                     </td> 
                     <td>{{$venta->fechaEmision}}</td>
                   </tr>
+                  @php
+                      $acum=$venta->serialVenta;
+                  @endphp
+                  @endif
                   @endforeach
                 </tbody>
               </table>
+              {{ csrf_field()}}
             </div>
           </div>
           <div class="card-footer small text-muted" style="text-align: center">Updated <input type="datetime" style="text-align: center" name="fecha"  readonly="true" value="<?php echo date("Y-m-d\TH-i");?>"></div>
@@ -143,9 +142,14 @@
       for(var count = 0; count < data.length; count++)
       {
        output += '<tr>';
-       output += '<td>' + data[count].post_title + '</td>';
-       output += '<td>' + data[count].post_description + '</td>';
-       output += '<td>' + data[count].date + '</td></tr>';
+       output += '<td>' + data[count].id + '</td>';
+       output += '<td>' + data[count].serialVenta + '</td>';
+       output += '<td>' + data[count].idUsuario + '</td>';
+       output += '<td>' + data[count].subtotal + '</td>';
+       output += '<td>' + data[count].iva + '</td>';
+       output += '<td>' + data[count].total + '</td>';
+       output += '<td>' + data[count].idCliente + '</td>';
+       output += '<td>' + data[count].fechaEmision + '</td></tr>';
       }
       $('tbody').html(output);
      }

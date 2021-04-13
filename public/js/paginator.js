@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -406,7 +406,7 @@ function paginator(config) {
 
 /***/ }),
 
-/***/ 12:
+/***/ 11:
 /*!*****************************************!*\
   !*** multi ./resources/js/paginator.js ***!
   \*****************************************/

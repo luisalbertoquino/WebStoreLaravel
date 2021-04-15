@@ -175,7 +175,7 @@
                         var role = $(this).find(':selected');
                         var role_id = role.data('role-id');
                         var role_slug = role.data('role-slug');
-
+ 
                         permissions_checkbox_list.empty();
 
                             $.ajax({

@@ -203,9 +203,7 @@
                 <a class="nav-link dropdown-toggle" href="/product" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-archive" aria-hidden="true"></i>&nbsp
-                    <span>Productos<span class="badge badge-danger">
-                        Stock
-                      </span></span>
+                    <span>Productos<span class="badge badge-danger">Stock</span></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     @if(Auth::user()->permissions->contains('slug', 'viewcategory')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
@@ -229,7 +227,7 @@
                 <a class="nav-link dropdown-toggle" href="/product" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-tags" aria-hidden="true"></i>&nbsp
-                    <span>Sales</span>
+                    <span>Ventas<span class="badge badge-success">Sales</span></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     <a class="dropdown-item" href="/sale">
@@ -249,7 +247,7 @@
                 <a class="nav-link dropdown-toggle" href="/product" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-truck" aria-hidden="true"></i>&nbsp
-                    <span>Shopping</span>
+                    <span>Compras<span class="badge badge-info">Purchases</span></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     <a class="dropdown-item" href="/shopping">
@@ -270,15 +268,15 @@
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp
-                    <span>Partners</span>
+                    <span>Socios/Clientes<span class="badge badge-warning">Partners</span></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     @if(Auth::user()->permissions->contains('slug', 'viewcostumer')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <a class="dropdown-item" href="/client">Customer Management</a>
+                    <a class="dropdown-item" href="/client">Customer</a>
                     @endif
                     <div class="dropdown-divider"></div>
                     @if(Auth::user()->permissions->contains('slug', 'viewsupplier')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-                    <a class="dropdown-item" href="/provider">Supplier Management</a>
+                    <a class="dropdown-item" href="/provider">Supplier</a>
                     @endif
                 </div>
             </li>
@@ -289,7 +287,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-chart-area"></i>&nbsp
-                    <span>Reports</span>
+                    <span>Informes<span class="badge badge-primary">Reports</span></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     <a class="dropdown-item" href="/Reportess">Sales</a>
@@ -305,11 +303,11 @@
             @if(Auth::user()->permissions->contains('slug', 'viewuser')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
             <li class="nav-item dropdown">
                 <div class="dropdown-divider"></div>
-                <h6 class="dropdown-header">Access</h6>
+                <h6 class="dropdown-header">Access<span style="float: right" class="badge badge-danger">UsersSystem</span></h6>
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-users" aria-hidden="true"></i>&nbsp
-                    <span>Users</span>
+                    <span>Usuarios</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     @if(Auth::user()->permissions->contains('slug', 'viewrol')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
@@ -332,13 +330,13 @@
             
 
             @if(Auth::user()->permissions->contains('slug', 'administrador')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
-            <h6 class="dropdown-header">Admin</h6>
+            <h6 class="dropdown-header">Admin<span style="float: right" class="badge badge-success">OptionsSystem</span></h6>
             <li class="nav-item">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp
-                    <span>Options System</span>
+                    <span>Opciones Sistema</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     @if(Auth::user()->permissions->contains('slug', 'operationalvariables')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
@@ -431,6 +429,7 @@
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
+    
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -440,6 +439,7 @@
    
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin.min.js"></script>
+    
 
     <!-- Demo scripts for this page-->
 
@@ -449,6 +449,7 @@
     <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/jQuery.print.min.js"></script>
 
 
 <!-- CSS -->

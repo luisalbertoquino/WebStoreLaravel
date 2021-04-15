@@ -116,7 +116,7 @@
         <div class="card card-login2 mx-auto mt-2" style="border:1px solid #666"> 
             <div class="card-header" style="text-align: left">
                 <a href="{{url()->previous()}}" class="btn btn-primary">Regresar</a>
-                <a href="{{url()->previous()}}" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                <a href="/sale2/{{$venta->id}}" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
             </div>
         <div class="card-body">
 

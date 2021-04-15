@@ -55,9 +55,9 @@
                     <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Seleccione Estado') }}</label>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <select name="estado" id="estado" class="form-control @error('descripcion') is-invalid @enderror" @if ($errors->has('estado')) autofocus @endif>
+                            <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" @if ($errors->has('estado')) autofocus @endif>
                                 <option value="" selected disabled hidden>Choose here</option>
-                                <option value="1">Activo</option>
+                                <option value="1" >Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
                         </div>
@@ -82,12 +82,7 @@
             </div> 
 
             <script>
-                var estado=document.getElementById('estado');
-                if(estado=='1'){
-                    document.getElementById('estado').options.item(0).selected = 'selected';
-                }else{
-                    document.getElementById('estado').options.item(1).selected = 'selected';
-                }
+                
 
             </script>
             <!-- /.container-fluid -->

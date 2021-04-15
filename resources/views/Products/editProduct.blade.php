@@ -86,9 +86,9 @@
                             @foreach ($categorias as $categorias)
                         @if($categorias->estado==1)
                             @if ($categorias->id==$producto->category['id'])
-                            <option selected="selected" value={{$categorias->id}}>{{$categorias->categoria}}</option>
+                            <option selected="selected" value={{$categorias->id}} {{ old('idCategoria') == $categorias->id ? 'selected' : '' }}>{{$categorias->categoria}}</option>
                             @else
-                            <option value={{$categorias->id}}>{{$categorias->categoria}}</option>
+                            <option value={{$categorias->id}} {{ old('idCategoria') == $categorias->id ? 'selected' : '' }}>{{$categorias->categoria}}</option>
                             @endif
                         @endif
                             @endforeach

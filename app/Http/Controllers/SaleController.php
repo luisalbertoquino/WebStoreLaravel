@@ -101,7 +101,7 @@ class SaleController extends Controller
         $sale->serialVenta = request('serialVenta');
         $sale->numeroVenta=request('numeroVenta');
         $sale->idProducto=$array[$i]; //
-        $sale->cantidad=$array2[$i]; //
+        $sale->cantidadProducto=$array2[$i]; //
         $sale->subtotal=request('subtotal');
         $sale->iva=$array3[$i];
         $sale->ivaAcum=request('ivaAcum');
@@ -147,23 +147,44 @@ class SaleController extends Controller
         $ventaFull = venta::get();
         $documento= documento::get();
         $config= negocio::find(1);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => TRUE, 'isRemoteEnabled' => TRUE, "enable_php" => TRUE,"allow_url_fopentrue" =>TRUE])->loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
-        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
-        return $pdf->download('Venta'.$venta->serialVenta.'.pdf');
-        //return view('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
+        $image = base64_encode(file_get_contents(public_path($config->logo)));
+        $image2 = base64_encode(file_get_contents(public_path($config->nombreLogo)));
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+        return $pdf->stream();
+        //return view('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config,'image'=>$image,'image2'=>$image2]);
     }
 
     public function show3()
     {   
-        $usuario = User::get();
+        $usuario = User::get(); 
         $cliente = cliente::get();
         $venta = venta::get();
         $documento= documento::get();
         $config= negocio::find(1);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteVentas', ['venta'=>$venta,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
-        //$pdf = PDF::loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config]);
-        return $pdf->show();
+        $image = base64_encode(file_get_contents(public_path($config->logo)));
+        $image2 = base64_encode(file_get_contents(public_path($config->nombreLogo)));
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteVentas', ['venta'=>$venta,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+        //$pdf = PDF::loadView('Pdf.reporteVentas', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+        //return view('Pdf.reporteVentas', ['venta'=>$venta,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+        return $pdf->stream();
     }
+
+
+    public function show4(venta $venta)
+    {   
+        $ventaOp = venta::find($venta);
+        $usuario = User::get();
+        $cliente = cliente::get();
+        $ventaFull = venta::get();
+        $documento= documento::get();
+        $config= negocio::find(1);
+        $image = base64_encode(file_get_contents(public_path($config->logo)));
+        $image2 = base64_encode(file_get_contents(public_path($config->nombreLogo)));
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('Pdf.reporteVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+        //return $pdf->stream();
+        return view('Print.imprimirVenta', ['venta'=>$venta,'ventaFull'=>$ventaFull,'usuario'=>$usuario,'cliente'=>$cliente,'documento'=>$documento,'config'=>$config,'image'=>$image,'image2'=>$image2]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.

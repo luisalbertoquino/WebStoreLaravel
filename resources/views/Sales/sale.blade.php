@@ -23,10 +23,10 @@
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header" style="text-align: center;font-size:15px; color:#34495E ;font-weight: bold;">
-            <i class="fas fa-table" style="color: #c2cfdd  ;"></i>&nbsp&nbsp
+            <i class="fas fa-paste"></i>&nbsp&nbsp
             REGISTRO DE VENTAS
-            <span style="float: left">
-              <a href="/sale3" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+            <span style="float: right">
+              <a title="Imprimir registros de tabla" href="/sale3" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
           </span>
           </div>
             
@@ -97,7 +97,7 @@
                     <!--imprimir-->
                    @if(Auth::user()->permissions->contains('slug', 'viewsale')==true || Auth::user()->roles->first()->nombre=='Administrador Main')
                    <td style="width:30px; text-align:center">
-                     <a title="Imprimir" class="btn btn-primary" href="javascript:void(0)" id="download"><i class="fa fa-print" aria-hidden="true"></i></a>
+                     <a title="Imprimir" class="btn btn-primary" href="javascript:void(0)" onclick="cache('{{$venta->id}}')"><i class="fa fa-print" aria-hidden="true"></i></a>
                    </td>
                    @endif
 
@@ -115,9 +115,9 @@
                         @method('PATCH')
                       {{csrf_field()}}
                         @if ($venta->estado==0)
-                        <button class="btn btn-danger" type="submit" disabled><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        <button class="btn btn-danger" type="submit" disabled><i class="fas fa-minus-circle"></i></button>
                         @else
-                        <button class="btn btn-success" type="submit" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        <button class="btn btn-success" type="submit" ><i class="fas fa-minus-circle"></i></button>
                         @endif
                       </form>
                       @endif
@@ -151,6 +151,27 @@
           });
 
       });
+
+      //para imprimir
+      function cache(idd){
+            let CSRF_TOKEN = $('meta[name="csrf-token"').attr('content');
+            $.ajaxSetup({
+              url: '/sale4/'+idd,
+              type: 'get',
+              data: {
+               
+              }
+            });
+
+            $.ajax({
+              success: function(viewContent) {
+                $.print(viewContent); // This is where the script calls the printer to print the viwe's content.
+              }
+            });
+      }
+
+        
+
   </script> 
 
 @endsection

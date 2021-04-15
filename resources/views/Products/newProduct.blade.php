@@ -92,7 +92,7 @@
                             <option value="" selected disabled hidden>Choose here</option>
                             @foreach ($categorias as $categorias)
                             @if ($categorias->estado==1){
-                            <option value={{$categorias->id}}>{{$categorias->categoria}}</option>
+                            <option value={{$categorias->id}} {{ old('idCategoria') == $categorias->id ? 'selected' : '' }}>{{$categorias->categoria}}</option>
                              }
                            @endif
                             @endforeach
@@ -107,8 +107,8 @@
                         <div class="form-group">
                             <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" @if ($errors->has('estado')) autofocus @endif>
                                 <option value="" selected disabled hidden>Choose here</option>
-                                <option value="1">Activo</option>
-                                <option value="0">Inactivo</option>
+                                <option value="1" >Activo</option>
+                                <option value="0" >Inactivo</option>
                             </select>
                         </div>
                 </div>
@@ -145,7 +145,7 @@
                 }else if(precioFinal==0){
                     document.getElementById("porcentajeGanancia").setAttribute('value','');
                 }else{
-                    document.getElementById("porcentajeGanancia").setAttribute('value',total+' % ( $'+diferencia+'.00)');
+                    document.getElementById("porcentajeGanancia").setAttribute('value',total.toFixed(4)+' % ( $'+diferencia+'.00)');
                 }
                 
             }

@@ -26,7 +26,7 @@
             <i class="fas fa-box-open"></i>&nbsp&nbsp
             PRODUCTOS REGISTRADOS
             <span style="float: right">
-              <a href="/product2" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+              <a title="Imprimir registros de tabla" href="/product2" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
           </span>
         </div>
           <div class="card-body">

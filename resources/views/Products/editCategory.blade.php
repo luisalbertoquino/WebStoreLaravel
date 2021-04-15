@@ -58,11 +58,11 @@
                             <input type="text" id="estado1" hidden name="estado1"  value="{{$categoria->estado}}">
                             <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" @if ($errors->has('estado')) autofocus @endif>
                                 @if($categoria->estado==0)
-                                <option  value="1">Activo</option>
-                                <option selected value="0">Inactivo</option>
+                                <option  value="1" {{ old('estado') == 1 ? 'selected' : '' }}>Activo</option>
+                                <option selected value="0" {{ old('estado') == 0 ? 'selected' : '' }}>Inactivo</option>
                                 @else
-                                <option selected value="1">Activo</option>
-                                <option value="0">Inactivo</option>
+                                <option selected value="1" {{ old('estado') == 1 ? 'selected' : '' }}>Activo</option>
+                                <option value="0" {{ old('estado') == 0 ? 'selected' : '' }}>Inactivo</option>
                                 @endif
                             </select>
                         </div>

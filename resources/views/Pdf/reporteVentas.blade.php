@@ -25,7 +25,7 @@
 
           <tbody> 
             @php
-                $acum= null;
+                $acum= null; 
             @endphp
             @foreach ($venta as $venta)
             @if($acum != $venta->serialVenta)

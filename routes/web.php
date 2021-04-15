@@ -73,7 +73,8 @@ Route::get('/sale', 'SaleController@index')->middleware('permiso:viewsale,admini
 Route::get('/sale/create', 'SaleController@create')->middleware('permiso:createsale,administrador-main'); 
 Route::get('/sale/{venta}', 'SaleController@show')->middleware('permiso:viewsale,administrador-main');
 Route::get('/sale2/{venta}', 'SaleController@show2')->middleware('permiso:viewsale,administrador-main');
-Route::get('/sale3', 'SaleController@show3')->middleware('permiso:viewsale,administrador-main');   
+Route::get('/sale3', 'SaleController@show3')->middleware('permiso:viewsale,administrador-main');
+Route::get('/sale4/{venta}', 'SaleController@show4')->middleware('permiso:viewsale,administrador-main');     
 Route::post('/sale', 'SaleController@store')->middleware('permiso:updatesale,administrador-main'); 
 Route::get('/sale/{venta}/edit', 'SaleController@edit')->middleware('permiso:updatesale,administrador-main'); 
 Route::patch('/sale/{venta}', 'SaleController@update')->middleware('permiso:updatesale,administrador-main'); 
@@ -86,7 +87,8 @@ Route::get('/shopping', 'ShoppingController@index')->middleware('permiso:viewpur
 Route::get('/shopping/create', 'ShoppingController@create')->middleware('permiso:createpurchase,administrador-main'); 
 Route::get('/shopping/{compra}', 'ShoppingController@show')->middleware('permiso:viewpurchase,administrador-main'); 
 Route::get('/shopping2/{compra}', 'ShoppingController@show2')->middleware('permiso:viewpurchase,administrador-main'); 
-Route::get('/shopping3', 'ShoppingController@show3')->middleware('permiso:viewpurchase,administrador-main'); 
+Route::get('/shopping3', 'ShoppingController@show3')->middleware('permiso:viewpurchase,administrador-main');
+Route::get('/shopping4/{compra}', 'ShoppingController@show4')->middleware('permiso:viewpurchase,administrador-main');//print
 Route::post('/shopping', 'ShoppingController@store')->middleware('permiso:updatepurchase,administrador-main'); 
 Route::get('/shopping/{compra}/edit', 'ShoppingController@edit')->middleware('permiso:updatepurchase,administrador-main'); 
 Route::patch('/shopping/{compra}', 'ShoppingController@update')->middleware('permiso:updatepurchase,administrador-main'); 

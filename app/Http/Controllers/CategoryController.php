@@ -44,7 +44,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    { 
         $data = request()->validate([
             'categoria'=>'required|max:20',
             'descripcion'=>'required|max:150',

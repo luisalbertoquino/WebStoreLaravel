@@ -26,7 +26,7 @@
             <i class="fas fa-boxes"></i>&nbsp&nbsp
             CATEGORIAS REGISTRADAS
             <span style="float: right">
-              <a href="/category2" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+              <a title="Imprimir registros de tabla" href="/category2" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
           </span>
           </div>
           <div class="card-body">

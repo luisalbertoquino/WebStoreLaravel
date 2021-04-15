@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
     <meta charset="UTF-8">
+    <link href="{{ asset('/css/sb-admin.css') }}" rel="stylesheet">
     <style>
         .invoice-box {
             max-width: 800px;
@@ -70,7 +71,7 @@
         .rtl {
             direction: rtl;
             font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        } 
+        }
         
         .rtl table {
             text-align: right;
@@ -79,6 +80,7 @@
         .rtl table tr td:nth-child(2) {
             text-align: left;
         }
+
         /*marca de agua css*/
         /** 
             * Set the margins of the PDF to 0
@@ -114,8 +116,8 @@
                 left:     5.5cm;
 
                 /** Cambiar las dimensiones de la imagen **/
-                width:    10cm;
-                height:   7cm;
+                width:    20cm;
+                height:   17cm;
 
                 /** Tu marca de agua debe estar detrás de cada contenido **/
                 z-index:  -1000;
@@ -135,16 +137,17 @@
             $acum = $venta->numeroVenta;
             }
             ?>
-
-<div id="watermark">
-    <img src="data:image/png;base64,{{ $image2 }}" style="opacity: 0.5;" height="100%" width="100%"/>
-</div>
-                <div class="card">
+            
+    
+                <div class="card" >
+                    
                     <div class="container">
                         <div class="invoice-box"> 
                             <div class="table-responsive">
-                                <table class="table" id="tablita" cellpadding="0" cellspacing="0" >
-                                    
+                                <table class="table" id="tablita" cellpadding="0" cellspacing="0" style="background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url('data:image/png;base64,{{ $image2 }}'); background-repeat: no-repeat;">
+                                    <div id="watermark">
+                                        <img src="data:image/png;base64,{{ $image2 }}" style="opacity: 0.5;" height="100%" width="100%"/>
+                                    </div>
                                     <tr class="top">
                                         <td colspan="2">
                                             <table>
@@ -245,4 +248,5 @@
                         </div>
                     </div>
                 </div>
+                
 </body></html>
